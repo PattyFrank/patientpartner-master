@@ -1,0 +1,20 @@
+---
+description: PatientPartner brand context — apply when working on marketing, copy, or content for this project
+alwaysApply: true
+---
+
+# PatientPartner Brand
+
+**Business:** Enterprise B2B SaaS. Mentor-driven patient engagement platform for pharma, med-tech, and clinical trial divisions. Connects patients to prior patients (mentors) for peer-to-peer support.
+
+**Voice:** Evidence-based, professional, outcome-focused. Lead with data (68%, 90%, 29%, 133.5 days). No hype. Use "we" and "you."
+
+**Positioning:** Peer-to-Peer Beats Everything. Patients trust people who've been there. We connect them in real time.
+
+**Audience:** Pharma commercial/marketing, med-tech teams, clinical trial recruitment leads. Enterprise decision-makers.
+
+**Brand files:** ./brand/voice-profile.md, ./brand/positioning.md, ./brand/audience.md, ./brand/competitors.md, ./brand/b2b-enterprise.md
+
+**Reference assets:** 23 PDFs (original) + 23 Markdown extracts in `./reference-extracted/`. **Read the .md files** for AI context—they are optimized for Cursor and Claude. (Branding, Clinical Trials, Commercial Pharma, Competitor Analysis, ICP, Medical Device, PerfectPatient, Positioning, Research Reports & Case Studies). See ./brand/reference-index.md.
+
+**Skills:** Vibe Marketing Skills. Run /start-here. Skills in ~/.claude/skills/.

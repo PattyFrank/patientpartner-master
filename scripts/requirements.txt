@@ -1,0 +1,2 @@
+# PDF to Markdown conversion (for scripts/convert-pdfs-to-markdown.py)
+pymupdf4llm>=0.0.8

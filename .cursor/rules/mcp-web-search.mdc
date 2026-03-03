@@ -1,0 +1,14 @@
+---
+description: MCP tool preference for web search — prioritize Exa over Perplexity/Firecrawl
+alwaysApply: true
+---
+
+# Web Search MCP Priority
+
+When web search, research, or live information lookup is needed:
+
+1. **Prefer Exa** — Use `web_search_exa` (Exa MCP) as the primary web search tool. Exa returns clean, ready-to-use content from top search results.
+2. **Fallback order** — If Exa is unavailable: Firecrawl (for scraping specific URLs), then Perplexity (for Q&A-style search).
+3. **Code context** — For code examples, docs, or programming questions: use `get_code_context_exa` (Exa) first.
+
+Do not default to Perplexity or Firecrawl when Exa tools are available.

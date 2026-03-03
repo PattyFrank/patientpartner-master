@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PatientPartner vs. Internal Ambassador Programs | PatientPartner</title>
+  <meta name="description" content="See why enterprise pharma teams productize their mentorship programs instead of rebuilding them. PatientPartner vs. Internal Ambassador Programs — side by side.">
+  <meta property="og:title" content="PatientPartner vs. Internal Ambassador Programs | PatientPartner">
+  <meta property="og:description" content="Your team builds strategy. PatientPartner runs the engine. See why enterprise pharma teams productize their mentorship programs instead of rebuilding them.">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="https://cdn.prod.website-files.com/67ab8a022edd6044d96d2597/67dc6aabf39479a264ef8535_favicon.png" type="image/png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    /* =========================================
+       PATIENTPARTNER DESIGN SYSTEM
+       Font: Manrope
+       Primary: #314D69
+       Accent: #72CBCF
+       Text: #183857
+       Background: #FFFFFF
+       Border Radius: 12px
+       ========================================= */
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --pp-primary: #314D69;
+      --pp-accent: #72CBCF;
+      --pp-accent-hover: #5FBCC0;
+      --pp-accent-light: rgba(114, 203, 207, 0.08);
+      --pp-accent-border: rgba(114, 203, 207, 0.2);
+      --pp-text: #183857;
+      --pp-text-light: #4A6B8A;
+      --pp-text-muted: #6B8CAD;
+      --pp-bg: #FFFFFF;
+      --pp-bg-light: #F7FAFA;
+      --pp-bg-section: #F0F7F7;
+      --pp-border: #DCEAEA;
+      --pp-border-light: #E8F3F3;
+      --pp-radius: 12px;
+      --pp-radius-lg: 16px;
+      --pp-shadow: 0 1px 3px rgba(24, 56, 87, 0.06);
+      --pp-shadow-md: 0 4px 16px rgba(24, 56, 87, 0.08);
+      --pp-shadow-lg: 0 8px 32px rgba(24, 56, 87, 0.1);
+      --pp-font: 'Manrope', Arial, sans-serif;
+      --pp-max-width: 1200px;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--pp-font); color: var(--pp-text); background: var(--pp-bg); font-size: 18px; line-height: 1.65; -webkit-font-smoothing: antialiased; }
+
+    .pp-container { max-width: var(--pp-max-width); margin: 0 auto; padding: 0 24px; }
+    .pp-container--narrow { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+
+    h1, h2, h3, h4, h5 { font-family: var(--pp-font); color: var(--pp-text); line-height: 1.2; font-weight: 700; }
+    h1 { font-size: clamp(36px, 5vw, 54px); letter-spacing: -0.02em; }
+    h2 { font-size: clamp(26px, 3.5vw, 38px); letter-spacing: -0.01em; }
+    h3 { font-size: clamp(20px, 2.5vw, 26px); }
+    h4 { font-size: 20px; }
+    p { font-size: 18px; line-height: 1.65; color: var(--pp-text-light); }
+
+    a { color: var(--pp-accent); text-decoration: none; transition: color 0.2s; }
+    a:hover { color: var(--pp-accent-hover); }
+
+    /* =========================================
+       BUTTONS
+       ========================================= */
+    .pp-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: var(--pp-font); font-size: 16px; font-weight: 600;
+      padding: 14px 28px; border-radius: var(--pp-radius);
+      cursor: pointer; transition: all 0.25s ease; border: none; text-decoration: none;
+    }
+    .pp-btn--primary {
+      background: var(--pp-accent); color: #fff;
+      box-shadow: rgba(101, 192, 196, 0.5) 0 0 0 1px inset;
+    }
+    .pp-btn--primary:hover { background: var(--pp-accent-hover); color: #fff; transform: translateY(-1px); box-shadow: var(--pp-shadow-md); }
+    .pp-btn--secondary {
+      background: #FBFFFF; color: var(--pp-text);
+      border: 1px solid var(--pp-border);
+    }
+    .pp-btn--secondary:hover { background: var(--pp-bg-light); border-color: var(--pp-accent); color: var(--pp-text); }
+    .pp-btn--ghost { background: transparent; color: var(--pp-accent); padding: 14px 0; }
+    .pp-btn--ghost:hover { color: var(--pp-accent-hover); }
+    .pp-btn--ghost svg { transition: transform 0.2s; }
+    .pp-btn--ghost:hover svg { transform: translateX(3px); }
+
+    /* =========================================
+       HERO
+       ========================================= */
+    .hero {
+      background: linear-gradient(170deg, var(--pp-primary) 0%, #1E3A54 100%);
+      padding: clamp(80px, 10vw, 120px) 0 clamp(60px, 8vw, 100px);
+      position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: ''; position: absolute; top: -200px; right: -200px;
+      width: 600px; height: 600px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(114, 203, 207, 0.12) 0%, transparent 70%);
+    }
+    .hero::after {
+      content: ''; position: absolute; bottom: -150px; left: -100px;
+      width: 400px; height: 400px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(114, 203, 207, 0.08) 0%, transparent 70%);
+    }
+    .hero__content { position: relative; z-index: 2; text-align: center; max-width: 800px; margin: 0 auto; }
+    .hero__label {
+      display: inline-block; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em;
+      color: var(--pp-accent); background: rgba(114, 203, 207, 0.12); border: 1px solid rgba(114, 203, 207, 0.2);
+      padding: 6px 16px; border-radius: 100px; margin-bottom: 24px;
+    }
+    .hero h1 { color: #fff; margin-bottom: 20px; }
+    .hero h1 span { color: var(--pp-accent); }
+    .hero__sub { font-size: 20px; color: rgba(255,255,255,0.75); max-width: 640px; margin: 0 auto 36px; line-height: 1.6; }
+    .hero__ctas { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+
+    /* =========================================
+       TRUST BAR
+       ========================================= */
+    .trust-bar { padding: 40px 0; border-bottom: 1px solid var(--pp-border-light); }
+    .trust-bar__inner { display: flex; align-items: center; justify-content: center; gap: 48px; flex-wrap: wrap; }
+    .trust-bar__label { font-size: 14px; font-weight: 600; color: var(--pp-text-muted); text-transform: uppercase; letter-spacing: 0.08em; white-space: nowrap; }
+    .trust-bar__badges { display: flex; gap: 20px; align-items: center; flex-wrap: wrap; }
+    .trust-badge {
+      display: flex; align-items: center; gap: 8px; padding: 8px 16px;
+      background: var(--pp-bg-light); border: 1px solid var(--pp-border); border-radius: 8px;
+      font-size: 13px; font-weight: 700; color: var(--pp-text); white-space: nowrap;
+    }
+    .trust-badge svg { width: 18px; height: 18px; color: var(--pp-accent); flex-shrink: 0; }
+
+    /* =========================================
+       SECTIONS
+       ========================================= */
+    .section { padding: clamp(60px, 8vw, 100px) 0; }
+    .section--alt { background: var(--pp-bg-light); }
+    .section--dark { background: linear-gradient(170deg, var(--pp-primary) 0%, #1E3A54 100%); }
+    .section__header { text-align: center; max-width: 720px; margin: 0 auto 48px; }
+    .section__header p { margin-top: 16px; }
+
+    /* =========================================
+       ONE-LINE DIFFERENCE
+       ========================================= */
+    .one-liner {
+      background: var(--pp-bg-light); border-bottom: 1px solid var(--pp-border-light);
+      padding: 48px 0;
+    }
+    .one-liner__inner { max-width: 800px; margin: 0 auto; text-align: center; }
+    .one-liner__headline {
+      font-size: clamp(22px, 3vw, 28px); font-weight: 800; color: var(--pp-text);
+      margin-bottom: 20px; line-height: 1.3;
+    }
+    .one-liner__body { font-size: 18px; color: var(--pp-text-light); line-height: 1.7; }
+
+    /* =========================================
+       COMPARISON TABLE
+       ========================================= */
+    .compare-table-wrap {
+      overflow-x: auto; border: 1px solid var(--pp-border); border-radius: var(--pp-radius-lg);
+      box-shadow: var(--pp-shadow);
+    }
+    .compare-table {
+      width: 100%; border-collapse: collapse; min-width: 600px;
+      font-size: 15px;
+    }
+    .compare-table thead th {
+      padding: 16px 20px; font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
+      border-bottom: 2px solid var(--pp-border); text-align: left; background: var(--pp-bg-light);
+      position: sticky; top: 0; z-index: 2; white-space: nowrap;
+    }
+    .compare-table thead th:first-child { width: 200px; }
+    .compare-table thead th.pp-col { background: rgba(114, 203, 207, 0.1); color: var(--pp-accent); }
+    .compare-table tbody td {
+      padding: 14px 20px; border-bottom: 1px solid var(--pp-border-light);
+      vertical-align: top;
+    }
+    .compare-table tbody td:first-child { font-weight: 600; color: var(--pp-text); }
+    .compare-table tbody td.pp-col { background: rgba(114, 203, 207, 0.04); }
+    .compare-table tbody tr:last-child td { border-bottom: none; }
+    .compare-table tbody tr:hover td { background: var(--pp-bg-light); }
+    .compare-table tbody tr:hover td.pp-col { background: rgba(114, 203, 207, 0.08); }
+
+    .check { color: var(--pp-accent); font-weight: 700; }
+    .partial { color: #D4A843; font-weight: 600; }
+    .miss { color: #B0C4D4; }
+
+    /* =========================================
+       VERDICT PILLS
+       ========================================= */
+    .verdict { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 700; padding: 4px 10px; border-radius: 6px; }
+    .verdict--win { background: rgba(114, 203, 207, 0.12); color: #3AA8AD; }
+    .verdict--partial { background: rgba(212, 168, 67, 0.12); color: #B8923A; }
+    .verdict--miss { background: rgba(176, 196, 212, 0.12); color: #7A96AD; }
+
+    /* =========================================
+       WHERE WE WIN CARDS
+       ========================================= */
+    .win-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px; }
+    .win-card {
+      background: var(--pp-bg); border: 1px solid var(--pp-border); border-radius: var(--pp-radius-lg);
+      padding: 36px; transition: box-shadow 0.3s;
+    }
+    .win-card:hover { box-shadow: var(--pp-shadow-md); }
+    .win-card__icon {
+      width: 48px; height: 48px; border-radius: 12px; background: var(--pp-accent-light);
+      display: flex; align-items: center; justify-content: center; margin-bottom: 20px;
+    }
+    .win-card__icon svg { width: 24px; height: 24px; color: var(--pp-accent); }
+    .win-card__number {
+      font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;
+      color: var(--pp-accent); margin-bottom: 8px;
+    }
+    .win-card h3 { font-size: 22px; margin-bottom: 16px; }
+    .win-card p { font-size: 16px; line-height: 1.65; }
+
+    @media (max-width: 768px) {
+      .win-grid { grid-template-columns: 1fr; }
+    }
+
+    /* =========================================
+       PROOF / STATS
+       ========================================= */
+    .proof-bar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+    .stat-card {
+      background: var(--pp-bg); border: 1px solid var(--pp-border); border-radius: var(--pp-radius-lg);
+      padding: 28px; text-align: center; transition: box-shadow 0.3s;
+    }
+    .stat-card:hover { box-shadow: var(--pp-shadow-md); }
+    .stat-card__number { font-size: 48px; font-weight: 800; color: var(--pp-accent); line-height: 1; margin-bottom: 8px; }
+    .stat-card__label { font-size: 14px; font-weight: 600; color: var(--pp-text-light); line-height: 1.4; }
+
+    @media (max-width: 768px) {
+      .proof-bar { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 480px) {
+      .proof-bar { grid-template-columns: 1fr; }
+      .stat-card__number { font-size: 36px; }
+    }
+
+    /* =========================================
+       FAQ ACCORDION
+       ========================================= */
+    .faq-list { max-width: 800px; margin: 0 auto; }
+    .faq-item {
+      border: 1px solid var(--pp-border); border-radius: var(--pp-radius);
+      margin-bottom: 12px; overflow: hidden; transition: box-shadow 0.3s;
+    }
+    .faq-item:hover { box-shadow: var(--pp-shadow); }
+    .faq-item__q {
+      width: 100%; padding: 20px 24px; display: flex; justify-content: space-between; align-items: center;
+      background: none; border: none; cursor: pointer; font-family: var(--pp-font);
+      font-size: 17px; font-weight: 600; color: var(--pp-text); text-align: left; gap: 16px;
+    }
+    .faq-item__q:hover { color: var(--pp-accent); }
+    .faq-item__icon {
+      width: 24px; height: 24px; flex-shrink: 0; transition: transform 0.3s;
+      color: var(--pp-accent);
+    }
+    .faq-item.open .faq-item__icon { transform: rotate(45deg); }
+    .faq-item__a {
+      max-height: 0; overflow: hidden; transition: max-height 0.35s ease, padding 0.35s ease;
+      padding: 0 24px;
+    }
+    .faq-item.open .faq-item__a { max-height: 400px; padding: 0 24px 20px; }
+    .faq-item__a p { font-size: 16px; line-height: 1.65; color: var(--pp-text-light); }
+
+    /* =========================================
+       FINAL CTA
+       ========================================= */
+    .final-cta {
+      text-align: center; padding: clamp(60px, 8vw, 100px) 24px;
+    }
+    .final-cta h2 { color: #fff; margin-bottom: 16px; }
+    .final-cta p { color: rgba(255,255,255,0.7); max-width: 560px; margin: 0 auto 36px; font-size: 19px; }
+    .final-cta .pp-btn--primary { font-size: 18px; padding: 18px 36px; }
+    .final-cta .pp-btn--secondary { background: rgba(255,255,255,0.1); color: #fff; border-color: rgba(255,255,255,0.2); }
+    .final-cta .pp-btn--secondary:hover { background: rgba(255,255,255,0.15); }
+
+    /* =========================================
+       NAV TOP BANNER
+       ========================================= */
+    .pp-nav-top { background: var(--pp-primary); display: flex; align-items: center; justify-content: center; gap: 12px; padding: 9px 24px; font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.85); }
+    .pp-nav-top a { color: var(--pp-accent); font-weight: 700; font-size: 13px; }
+    .pp-nav-top a:hover { color: #fff; }
+    /* =========================================
+       MAIN NAV
+       ========================================= */
+    .pp-nav-bottom { background: #fff; border-bottom: 1px solid var(--pp-border-light); position: sticky; top: 0; z-index: 200; box-shadow: 0 1px 4px rgba(24,56,87,0.07); }
+    .pp-nav-bottom__inner { max-width: var(--pp-max-width); margin: 0 auto; padding: 0 32px; display: flex; align-items: center; justify-content: space-between; height: 68px; gap: 32px; }
+    .pp-logo { display: flex; align-items: center; text-decoration: none; flex-shrink: 0; }
+    .pp-logo svg { height: 36px; width: auto; color: var(--pp-accent); }
+    .pp-nav-links { display: flex; align-items: center; gap: 4px; flex: 1; }
+    .pp-nav-item { position: relative; }
+    .pp-nav-btn { display: flex; align-items: center; gap: 5px; padding: 8px 12px; border-radius: 8px; font-size: 14px; font-weight: 600; color: var(--pp-text-light); cursor: pointer; background: none; border: none; font-family: var(--pp-font); transition: color 0.18s, background 0.18s; }
+    .pp-nav-btn:hover { color: var(--pp-text); background: var(--pp-bg-light); }
+    .pp-nav-btn svg { width: 14px; height: 14px; transition: transform 0.2s; flex-shrink: 0; }
+    .pp-nav-item:hover .pp-nav-btn { color: var(--pp-text); background: var(--pp-bg-light); }
+    .pp-nav-item:hover .pp-nav-btn svg { transform: rotate(180deg); }
+    .pp-dropdown { position: absolute; top: calc(100% + 6px); left: 0; min-width: 220px; background: #fff; border: 1px solid var(--pp-border); border-radius: 16px; box-shadow: 0 12px 40px rgba(24, 56, 87, 0.13); padding: 8px; opacity: 0; visibility: hidden; transform: translateY(-6px); transition: all 0.2s ease; }
+    .pp-nav-item:hover .pp-dropdown { opacity: 1; visibility: visible; transform: translateY(0); }
+    .pp-dropdown a { display: block; padding: 9px 14px; font-size: 14px; font-weight: 500; color: var(--pp-text-light); border-radius: 8px; transition: all 0.15s; }
+    .pp-dropdown a:hover { background: rgba(114, 203, 207, 0.08); color: var(--pp-accent); }
+    .pp-nav-cta { margin-left: auto; }
+    .pp-hamburger { display: none; }
+    @media (max-width: 900px) { .pp-nav-links, .pp-nav-cta { display: none; } .pp-hamburger { display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; cursor: pointer; background: none; border: none; color: var(--pp-text); } }
+    /* =========================================
+       FOOTER
+       ========================================= */
+    .pp-footer { background: var(--pp-primary); padding: 64px 0 0; }
+    .pp-footer__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; padding-bottom: 48px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+    .pp-footer__col-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255,255,255,0.45); margin-bottom: 16px; }
+    .pp-footer__links { display: flex; flex-direction: column; gap: 10px; }
+    .pp-footer__links a { font-size: 14px; font-weight: 500; color: rgba(255,255,255,0.65); transition: color 0.18s; }
+    .pp-footer__links a:hover { color: #fff; }
+    .pp-footer__bottom { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; padding: 20px 0; font-size: 13px; color: rgba(255,255,255,0.38); }
+    .pp-footer__bottom a { color: rgba(255,255,255,0.45); }
+    .pp-footer__bottom a:hover { color: rgba(255,255,255,0.8); }
+    .pp-footer__legal { display: flex; gap: 20px; }
+    @media (max-width: 800px) { .pp-footer__grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 500px) { .pp-footer__grid { grid-template-columns: 1fr; } }
+
+    /* =========================================
+       RESPONSIVE
+       ========================================= */
+    @media (max-width: 600px) {
+      .hero__ctas { flex-direction: column; align-items: center; }
+      .trust-bar__inner { flex-direction: column; gap: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV TOP BANNER -->
+  <div class="pp-nav-top">
+    NEW RELEASE: The PerfectPatient AI Mentor&nbsp;
+    <a href="https://www.patientpartner.com/ai-mentor">Learn More →</a>
+  </div>
+  <!-- MAIN NAV -->
+  <div class="pp-nav-bottom">
+    <div class="pp-nav-bottom__inner">
+      <a href="https://www.patientpartner.com/" class="pp-logo" aria-label="PatientPartner home">
+        <svg xmlns="http://www.w3.org/2000/svg" width="180" height="42" viewBox="0 0 213 50" fill="none" preserveAspectRatio="xMidYMid meet"><path d="M7.44912 31.2322H3.8882V36.3658C3.8882 37.0997 3.70494 37.6564 3.33836 38.0359C2.97181 38.415 2.50923 38.6048 1.95065 38.6048C1.36589 38.6048 0.894595 38.4191 0.536756 38.0482C0.178919 37.6687 0 37.1161 0 36.3904V22.4125C0 21.6043 0.196374 21.027 0.589122 20.6807C0.981873 20.3343 1.6059 20.1611 2.46123 20.1611H7.44912C8.92411 20.1611 10.0587 20.2683 10.853 20.4828C11.6385 20.6889 12.3149 21.0311 12.8822 21.5095C13.4582 21.9878 13.8946 22.5733 14.1913 23.266C14.4881 23.9587 14.6364 24.738 14.6364 25.6038C14.6364 27.4512 14.0342 28.8531 12.8298 29.8098C11.6254 30.7582 9.83182 31.2322 7.44912 31.2322ZM6.50655 22.9197H3.8882V28.4614H6.50655C7.42294 28.4614 8.18663 28.3706 8.79758 28.1892C9.41725 28.0079 9.88852 27.7111 10.2115 27.2985C10.5344 26.8863 10.6959 26.346 10.6959 25.6783C10.6959 24.8781 10.4471 24.2268 9.94963 23.7237C9.39107 23.1875 8.24337 22.9197 6.50655 22.9197Z" fill="currentColor"/><path d="M62.492 26.7414V27.1498C63.1205 26.3663 63.8055 25.7932 64.5475 25.4302C65.298 25.0593 66.1579 24.8735 67.1265 24.8735C68.0691 24.8735 68.9112 25.0675 69.6532 25.4551C70.3952 25.8425 70.9492 26.3909 71.3159 27.1003C71.5514 27.5125 71.7042 27.9579 71.7739 28.436C71.8439 28.9145 71.8788 29.5248 71.8788 30.267V36.5508C71.8788 37.227 71.713 37.7383 71.3812 38.0846C71.0582 38.4312 70.6351 38.6044 70.1115 38.6044C69.579 38.6044 69.147 38.4271 68.8155 38.0723C68.4837 37.7178 68.3179 37.2106 68.3179 36.5508V30.9227C68.3179 29.8093 68.1521 28.9599 67.8203 28.3742C67.4973 27.7806 66.8472 27.4838 65.8698 27.4838C65.2327 27.4838 64.6524 27.6652 64.1285 28.0279C63.6049 28.3824 63.2207 28.8732 62.9764 29.4999C62.802 30.003 62.7145 30.9432 62.7145 32.3203V36.5508C62.7145 37.2352 62.5443 37.7509 62.2039 38.0972C61.8724 38.4353 61.4404 38.6044 60.9079 38.6044C60.3932 38.6044 59.9698 38.4271 59.6382 38.0723C59.3064 37.7178 59.1406 37.2106 59.1406 36.5508V26.7909C59.1406 26.1478 59.289 25.6693 59.5856 25.3561C59.8826 25.0344 60.2883 24.8735 60.8033 24.8735C61.1174 24.8735 61.4011 24.9439 61.6543 25.0839C61.9073 25.2242 62.1082 25.4343 62.2565 25.7147C62.4134 25.9951 62.492 26.3373 62.492 26.7414Z" fill="currentColor"/></svg>
+      </a>
+      <nav class="pp-nav-links">
+        <div class="pp-nav-item">
+          <button class="pp-nav-btn">Solutions <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></button>
+          <div class="pp-dropdown">
+            <a href="https://www.patientpartner.com/ai-mentor">AI Mentor</a>
+            <a href="https://www.patientpartner.com/pharma-engagment-software">For Pharma</a>
+            <a href="https://www.patientpartner.com/med-device-engagement-software">For Med-Tech</a>
+            <a href="https://www.patientpartner.com/clinical-trial-engagement-software">For Clinical Trials</a>
+            <a href="https://www.patientpartner.com/marketing-service-page">Marketing</a>
+            <a href="https://www.patientpartner.com/patient-service-page">Patient Services</a>
+          </div>
+        </div>
+        <div class="pp-nav-item">
+          <button class="pp-nav-btn">Resources <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></button>
+          <div class="pp-dropdown">
+            <a href="https://www.patientpartner.com/resources">Resource Center</a>
+            <a href="https://www.patientpartner.com/blog-page">Blog</a>
+            <a href="https://www.patientpartner.com/patientpod">PatientPod</a>
+            <a href="https://www.patientpartner.com/compliance-overview">Compliance Overview</a>
+            <a href="https://www.patientpartner.com/faq">FAQs</a>
+          </div>
+        </div>
+        <div class="pp-nav-item">
+          <button class="pp-nav-btn">Company <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></button>
+          <div class="pp-dropdown">
+            <a href="https://www.patientpartner.com/about-us">About Us</a>
+            <a href="https://www.patientpartner.com/how-patientpartner-works">How It Works</a>
+            <a href="https://www.patientpartner.com/patientpartner-gives-back">How We Give Back</a>
+            <a href="https://www.patientpartner.com/careers">Careers</a>
+          </div>
+        </div>
+        <a href="compare.html" class="pp-nav-btn" style="color: var(--pp-accent);">Compare</a>
+      </nav>
+      <div class="pp-nav-cta"><a href="https://www.patientpartner.com/#" class="pp-btn pp-btn--primary" style="font-size:14px;padding:10px 20px;">Book a Demo</a></div>
+      <button class="pp-hamburger" aria-label="Menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="pp-footer">
+    <div class="pp-container">
+      <div class="pp-footer__grid">
+        <div>
+          <div class="pp-footer__col-label">Solutions</div>
+          <div class="pp-footer__links">
+            <a href="https://www.patientpartner.com/ai-mentor">AI Mentor</a>
+            <a href="https://www.patientpartner.com/pharma-engagment-software">For Pharma</a>
+            <a href="https://www.patientpartner.com/med-device-engagement-software">For Med-Tech</a>
+            <a href="https://www.patientpartner.com/clinical-trial-engagement-software">For Clinical Trials</a>
+            <a href="https://www.patientpartner.com/marketing-service-page">Marketing</a>
+            <a href="https://www.patientpartner.com/patient-service-page">Patient Services</a>
+          </div>
+        </div>
+        <div>
+          <div class="pp-footer__col-label">Resources</div>
+          <div class="pp-footer__links">
+            <a href="https://www.patientpartner.com/resources">Resource Center</a>
+            <a href="https://www.patientpartner.com/blog-page">Blog</a>
+            <a href="https://www.patientpartner.com/patientpod">PatientPod</a>
+            <a href="https://www.patientpartner.com/compliance-overview">Compliance Overview</a>
+            <a href="https://www.patientpartner.com/faq">FAQs</a>
+          </div>
+        </div>
+        <div>
+          <div class="pp-footer__col-label">Company</div>
+          <div class="pp-footer__links">
+            <a href="https://www.patientpartner.com/about-us">About Us</a>
+            <a href="https://www.patientpartner.com/how-patientpartner-works">How It Works</a>
+            <a href="https://www.patientpartner.com/patientpartner-gives-back">How We Give Back</a>
+            <a href="https://www.patientpartner.com/careers">Careers</a>
+          </div>
+        </div>
+        <div>
+          <div class="pp-footer__col-label">Treatment Coverage</div>
+          <div class="pp-footer__links">
+            <a href="https://www.patientpartner.com/main-disease-state-page">All Disease States</a>
+            <a href="https://www.patientpartner.com/rare-disease/chronic">Chronic Conditions</a>
+            <a href="https://www.patientpartner.com/rare-disease/neurology">Neurology</a>
+            <a href="https://www.patientpartner.com/rare-disease/surgical-specialities">Surgical Specialties</a>
+            <a href="https://www.patientpartner.com/rare-disease/onkology">Oncology</a>
+            <a href="https://www.patientpartner.com/rare-disease/glp-1-therapies">GLP-1 Therapy Support</a>
+            <a href="https://www.patientpartner.com/rare-disease/rare-disease">Rare Diseases</a>
+          </div>
+        </div>
+      </div>
+      <div class="pp-footer__bottom">
+        <div>© 2026 rightdevice, Inc. dba PatientPartner. All rights reserved.</div>
+        <div class="pp-footer__legal">
+          <a href="https://patient.patientpartner.com/terms">Terms and Conditions</a>
+          <a href="https://patient.patientpartner.com/privacy">Privacy Policy</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========================================= -->
+  <!-- JAVASCRIPT                                 -->
+  <!-- ========================================= -->
+  <script>
+    // FAQ accordion
+    document.querySelectorAll('.faq-item__q').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var item = this.parentElement;
+        var isOpen = item.classList.contains('open');
+
+        document.querySelectorAll('.faq-item').forEach(function(faq) { faq.classList.remove('open'); });
+        document.querySelectorAll('.faq-item__q').forEach(function(q) { q.setAttribute('aria-expanded', 'false'); });
+
+        if (!isOpen) {
+          item.classList.add('open');
+          this.setAttribute('aria-expanded', 'true');
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>

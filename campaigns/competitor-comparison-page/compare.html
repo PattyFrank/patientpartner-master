@@ -1,0 +1,1423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Compare Patient Engagement Platforms | PatientPartner</title>
+  <meta name="description" content="See how PatientPartner compares to Snow Companies, Reverba, and internal programs. Real-time peer-to-peer mentorship vs. legacy agency models — side by side.">
+  <meta property="og:title" content="Compare Patient Engagement Platforms | PatientPartner">
+  <meta property="og:description" content="See how PatientPartner compares to Snow Companies, Reverba, and internal programs. Real-time peer-to-peer mentorship vs. legacy agency models — side by side.">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="https://cdn.prod.website-files.com/67ab8a022edd6044d96d2597/67dc6aabf39479a264ef8535_favicon.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    /* =============================================
+       PATIENTPARTNER DESIGN SYSTEM
+       Font: Manrope | Primary: #314D69
+       Accent: #72CBCF | Text: #183857
+       Border Radius: 12px
+       ============================================= */
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --pp-primary: #314D69;
+      --pp-primary-dark: #1E3A54;
+      --pp-accent: #72CBCF;
+      --pp-accent-hover: #5FBCC0;
+      --pp-accent-light: rgba(114, 203, 207, 0.08);
+      --pp-accent-mid: rgba(114, 203, 207, 0.15);
+      --pp-accent-border: rgba(114, 203, 207, 0.25);
+      --pp-text: #183857;
+      --pp-text-light: #4A6B8A;
+      --pp-text-muted: #6B8CAD;
+      --pp-bg: #FFFFFF;
+      --pp-bg-light: #F7FAFA;
+      --pp-border: #DCEAEA;
+      --pp-border-light: #E8F3F3;
+      --pp-radius: 12px;
+      --pp-radius-lg: 16px;
+      --pp-shadow-sm: 0 1px 3px rgba(24, 56, 87, 0.06);
+      --pp-shadow-md: 0 4px 16px rgba(24, 56, 87, 0.09);
+      --pp-shadow-lg: 0 12px 40px rgba(24, 56, 87, 0.13);
+      --pp-font: 'Manrope', Arial, sans-serif;
+      --pp-max: 1200px;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--pp-font);
+      color: var(--pp-text);
+      background: var(--pp-bg);
+      font-size: 18px;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    img { display: block; max-width: 100%; height: auto; }
+
+    .pp-wrap { max-width: var(--pp-max); margin: 0 auto; padding: 0 32px; }
+    .pp-wrap--narrow { max-width: 860px; margin: 0 auto; padding: 0 32px; }
+
+    h1, h2, h3, h4 { font-family: var(--pp-font); color: var(--pp-text); line-height: 1.15; font-weight: 700; }
+    h1 { font-size: clamp(38px, 5vw, 56px); letter-spacing: -0.025em; }
+    h2 { font-size: clamp(28px, 3.5vw, 40px); letter-spacing: -0.015em; }
+    h3 { font-size: clamp(20px, 2.5vw, 26px); letter-spacing: -0.01em; }
+    h4 { font-size: 19px; letter-spacing: -0.005em; }
+    p { font-size: 17px; line-height: 1.7; color: var(--pp-text-light); }
+    a { color: var(--pp-accent); text-decoration: none; transition: color 0.2s; }
+    a:hover { color: var(--pp-accent-hover); }
+
+    /* ---- BUTTONS ---- */
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: var(--pp-font); font-weight: 600; font-size: 15px;
+      padding: 13px 26px; border-radius: var(--pp-radius);
+      cursor: pointer; transition: all 0.22s ease;
+      border: none; text-decoration: none; white-space: nowrap;
+    }
+    .btn--teal { background: var(--pp-accent); color: #fff; box-shadow: inset 0 0 0 1px rgba(101,192,196,0.5); }
+    .btn--teal:hover { background: var(--pp-accent-hover); color: #fff; transform: translateY(-1px); box-shadow: var(--pp-shadow-md); }
+    .btn--ghost-white { background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.22); }
+    .btn--ghost-white:hover { background: rgba(255,255,255,0.17); color: #fff; }
+    .btn--outline { background: #fff; color: var(--pp-text); border: 1px solid var(--pp-border); }
+    .btn--outline:hover { border-color: var(--pp-accent); background: var(--pp-bg-light); }
+    .btn--lg { font-size: 17px; padding: 17px 34px; }
+
+    /* ---- SECTION SPACING ---- */
+    .section { padding: clamp(64px, 9vw, 110px) 0; }
+    .section--alt { background: var(--pp-bg-light); }
+    .section--dark { background: linear-gradient(160deg, var(--pp-primary) 0%, var(--pp-primary-dark) 100%); }
+    .section__head { text-align: center; max-width: 680px; margin: 0 auto 52px; }
+    .section__head p { margin-top: 16px; font-size: 18px; }
+
+    /* =============================================
+       REAL WEBFLOW NAV (matches live site)
+       ============================================= */
+    .pp-nav-top {
+      background: var(--pp-primary);
+      display: flex; align-items: center; justify-content: center; gap: 12px;
+      padding: 9px 24px; font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.85);
+    }
+    .pp-nav-top a { color: var(--pp-accent); font-weight: 700; font-size: 13px; }
+    .pp-nav-top a:hover { color: #fff; }
+
+    .pp-nav-bottom {
+      background: #fff;
+      border-bottom: 1px solid var(--pp-border-light);
+      position: sticky; top: 0; z-index: 200;
+      box-shadow: 0 1px 4px rgba(24,56,87,0.07);
+    }
+    .pp-nav-bottom__inner {
+      max-width: var(--pp-max); margin: 0 auto; padding: 0 32px;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 68px; gap: 32px;
+    }
+
+    .pp-logo {
+      display: flex; align-items: center; text-decoration: none;
+      flex-shrink: 0;
+    }
+    .pp-logo svg { height: 36px; width: auto; color: var(--pp-accent); }
+
+    .pp-nav-links {
+      display: flex; align-items: center; gap: 4px; flex: 1;
+    }
+
+    /* Dropdown nav item */
+    .pp-nav-item { position: relative; }
+    .pp-nav-btn {
+      display: flex; align-items: center; gap: 5px;
+      padding: 8px 12px; border-radius: 8px;
+      font-size: 14px; font-weight: 600; color: var(--pp-text-light);
+      cursor: pointer; background: none; border: none; font-family: var(--pp-font);
+      transition: color 0.18s, background 0.18s;
+    }
+    .pp-nav-btn:hover { color: var(--pp-text); background: var(--pp-bg-light); }
+    .pp-nav-btn svg { width: 14px; height: 14px; transition: transform 0.2s; flex-shrink: 0; }
+    .pp-nav-item:hover .pp-nav-btn { color: var(--pp-text); background: var(--pp-bg-light); }
+    .pp-nav-item:hover .pp-nav-btn svg { transform: rotate(180deg); }
+
+    .pp-dropdown {
+      position: absolute; top: calc(100% + 6px); left: 0;
+      min-width: 220px; background: #fff;
+      border: 1px solid var(--pp-border); border-radius: var(--pp-radius-lg);
+      box-shadow: var(--pp-shadow-lg); padding: 8px;
+      opacity: 0; visibility: hidden; transform: translateY(-6px);
+      transition: all 0.2s ease;
+    }
+    .pp-nav-item:hover .pp-dropdown { opacity: 1; visibility: visible; transform: translateY(0); }
+    .pp-dropdown a {
+      display: block; padding: 9px 14px; font-size: 14px; font-weight: 500;
+      color: var(--pp-text-light); border-radius: 8px; transition: all 0.15s;
+    }
+    .pp-dropdown a:hover { background: var(--pp-accent-light); color: var(--pp-accent); }
+    .pp-dropdown__label {
+      font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;
+      color: var(--pp-text-muted); padding: 6px 14px 4px; margin-top: 4px;
+    }
+
+    .pp-nav-cta { margin-left: auto; }
+
+    /* Mobile hamburger placeholder */
+    .pp-hamburger { display: none; }
+
+    @media (max-width: 900px) {
+      .pp-nav-links, .pp-nav-cta { display: none; }
+      .pp-hamburger {
+        display: flex; align-items: center; justify-content: center;
+        width: 40px; height: 40px; cursor: pointer;
+        background: none; border: none; color: var(--pp-text);
+      }
+    }
+
+    /* =============================================
+       HERO
+       ============================================= */
+    .hero {
+      background: linear-gradient(160deg, var(--pp-primary) 0%, var(--pp-primary-dark) 100%);
+      padding: clamp(72px, 10vw, 120px) 0 0;
+      overflow: hidden; position: relative;
+    }
+    .hero__glow-1 {
+      position: absolute; top: -180px; right: -180px;
+      width: 560px; height: 560px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(114,203,207,0.14) 0%, transparent 68%);
+      pointer-events: none;
+    }
+    .hero__glow-2 {
+      position: absolute; bottom: 60px; left: -120px;
+      width: 380px; height: 380px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(114,203,207,0.09) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero__inner { position: relative; z-index: 2; display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: end; }
+    .hero__copy { padding-bottom: clamp(56px, 7vw, 90px); }
+    .hero__label {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em;
+      color: var(--pp-accent); background: rgba(114,203,207,0.12);
+      border: 1px solid rgba(114,203,207,0.22); padding: 6px 14px; border-radius: 100px;
+      margin-bottom: 24px;
+    }
+    .hero__label svg { width: 12px; height: 12px; }
+    .hero h1 { color: #fff; margin-bottom: 20px; }
+    .hero h1 em { color: var(--pp-accent); font-style: normal; }
+    .hero__sub { font-size: 18px; color: rgba(255,255,255,0.72); max-width: 520px; margin-bottom: 36px; line-height: 1.65; }
+    .hero__ctas { display: flex; gap: 14px; flex-wrap: wrap; }
+    .hero__image-wrap {
+      position: relative; align-self: flex-end;
+      margin-bottom: 0;
+    }
+    .hero__image-wrap::before {
+      content: '';
+      position: absolute; inset: 0; z-index: 1;
+      background: linear-gradient(to bottom, transparent 60%, var(--pp-primary-dark) 100%);
+      border-radius: 16px 16px 0 0;
+    }
+    .hero__screenshot {
+      width: 100%; border-radius: 16px 16px 0 0;
+      box-shadow: 0 -8px 48px rgba(0,0,0,0.35);
+      display: block;
+    }
+    .hero__badge {
+      position: absolute; top: 28px; left: -24px; z-index: 2;
+      background: #fff; border-radius: 12px; padding: 14px 18px;
+      box-shadow: var(--pp-shadow-lg);
+      display: flex; align-items: center; gap: 12px;
+    }
+    .hero__badge-icon {
+      width: 40px; height: 40px; border-radius: 10px;
+      background: var(--pp-accent-light); display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .hero__badge-icon svg { width: 20px; height: 20px; color: var(--pp-accent); }
+    .hero__badge-num { font-size: 22px; font-weight: 800; color: var(--pp-text); line-height: 1; }
+    .hero__badge-label { font-size: 12px; color: var(--pp-text-muted); font-weight: 500; margin-top: 2px; }
+
+    @media (max-width: 900px) {
+      .hero__inner { grid-template-columns: 1fr; }
+      .hero__image-wrap { display: none; }
+      .hero__copy { padding-bottom: 64px; }
+    }
+
+    /* =============================================
+       STICKY COMPETITOR SELECTOR
+       ============================================= */
+    .comp-nav {
+      background: #fff; border-bottom: 1px solid var(--pp-border);
+      position: sticky; top: 68px; z-index: 150;
+      box-shadow: 0 2px 8px rgba(24,56,87,0.05);
+    }
+    .comp-nav__inner {
+      display: flex; align-items: center; overflow-x: auto;
+      -webkit-overflow-scrolling: touch; scrollbar-width: none;
+    }
+    .comp-nav__inner::-webkit-scrollbar { display: none; }
+    .comp-btn {
+      flex-shrink: 0; padding: 17px 22px;
+      font-size: 14px; font-weight: 600; color: var(--pp-text-muted);
+      background: none; border: none; border-bottom: 3px solid transparent;
+      cursor: pointer; font-family: var(--pp-font);
+      transition: all 0.18s; white-space: nowrap;
+    }
+    .comp-btn:hover { color: var(--pp-text); }
+    .comp-btn.active { color: var(--pp-accent); border-bottom-color: var(--pp-accent); }
+
+    /* =============================================
+       LOGO MARQUEE
+       ============================================= */
+    .logo-bar { padding: 28px 0; border-bottom: 1px solid var(--pp-border-light); }
+    .logo-bar__label {
+      text-align: center; font-size: 12px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.1em; color: var(--pp-text-muted);
+      margin-bottom: 20px;
+    }
+    .logo-bar__track-wrap {
+      overflow: hidden; position: relative;
+      mask-image: linear-gradient(to right, transparent 0%, #000 10%, #000 90%, transparent 100%);
+    }
+    .logo-bar__track {
+      display: flex; align-items: center; gap: 40px;
+      animation: marquee 28s linear infinite;
+      width: max-content;
+    }
+    .logo-bar__track:hover { animation-play-state: paused; }
+    .logo-bar__logo { height: 32px; width: auto; opacity: 0.55; filter: grayscale(100%); transition: all 0.2s; flex-shrink: 0; }
+    .logo-bar__logo:hover { opacity: 0.9; filter: grayscale(0%); }
+    @keyframes marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* =============================================
+       TRUST BAR
+       ============================================= */
+    .trust-bar { padding: 44px 0; }
+    .trust-bar__inner { display: flex; align-items: center; justify-content: center; gap: 40px; flex-wrap: wrap; }
+    .trust-bar__divider { width: 1px; height: 28px; background: var(--pp-border); flex-shrink: 0; }
+    .trust-badge {
+      display: flex; align-items: center; gap: 9px;
+      padding: 9px 16px; background: var(--pp-bg-light);
+      border: 1px solid var(--pp-border); border-radius: 9px;
+      font-size: 13px; font-weight: 700; color: var(--pp-text); white-space: nowrap;
+    }
+    .trust-badge svg { width: 17px; height: 17px; color: var(--pp-accent); flex-shrink: 0; }
+    .trust-bar__label { font-size: 13px; font-weight: 600; color: var(--pp-text-muted); text-transform: uppercase; letter-spacing: 0.08em; white-space: nowrap; }
+
+    /* =============================================
+       PROBLEM FRAMING
+       ============================================= */
+    .problem { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: center; }
+    .problem__text h2 { margin-bottom: 22px; }
+    .problem__text p { margin-bottom: 16px; font-size: 17px; }
+    .problem__lead { font-size: 19px !important; color: var(--pp-text) !important; font-weight: 500 !important; }
+    .problem__stats { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .stat-card {
+      background: #fff; border: 1px solid var(--pp-border);
+      border-radius: var(--pp-radius-lg); padding: 28px 24px;
+      text-align: center; transition: box-shadow 0.25s, transform 0.25s;
+    }
+    .stat-card:hover { box-shadow: var(--pp-shadow-md); transform: translateY(-2px); }
+    .stat-card__num {
+      font-size: clamp(36px, 4vw, 52px); font-weight: 800;
+      color: var(--pp-accent); line-height: 1; margin-bottom: 8px;
+    }
+    .stat-card__label { font-size: 13px; font-weight: 600; color: var(--pp-text-light); line-height: 1.45; }
+    .stat-card--dark { background: var(--pp-primary); border-color: transparent; }
+    .stat-card--dark .stat-card__num { color: var(--pp-accent); }
+    .stat-card--dark .stat-card__label { color: rgba(255,255,255,0.7); }
+
+    @media (max-width: 800px) {
+      .problem { grid-template-columns: 1fr; gap: 40px; }
+      .problem__stats { grid-template-columns: 1fr 1fr; }
+    }
+
+    /* =============================================
+       COMPARISON TABLE
+       ============================================= */
+    .table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--pp-border); border-radius: var(--pp-radius-lg);
+      box-shadow: var(--pp-shadow-sm);
+    }
+    .cmp-table {
+      width: 100%; border-collapse: collapse; min-width: 760px; font-size: 14px;
+    }
+    .cmp-table thead th {
+      padding: 18px 20px; background: var(--pp-bg-light);
+      font-size: 13px; font-weight: 700; text-align: left;
+      border-bottom: 2px solid var(--pp-border);
+      white-space: nowrap; position: sticky; top: 0; z-index: 1;
+    }
+    .cmp-table thead th.pp-col { background: rgba(114,203,207,0.1); color: var(--pp-accent); }
+    .cmp-table tbody td { padding: 13px 20px; border-bottom: 1px solid var(--pp-border-light); vertical-align: top; line-height: 1.45; }
+    .cmp-table tbody td:first-child { font-weight: 600; color: var(--pp-text); font-size: 13.5px; white-space: nowrap; }
+    .cmp-table tbody td.pp-col { background: rgba(114,203,207,0.04); }
+    .cmp-table tbody tr:last-child td { border-bottom: none; }
+    .cmp-table tbody tr:hover td { background: var(--pp-bg-light); }
+    .cmp-table tbody tr:hover td.pp-col { background: rgba(114,203,207,0.07); }
+
+    .v-win { color: #3AA8AD; font-weight: 700; }
+    .v-partial { color: #B08830; font-weight: 600; }
+    .v-miss { color: #9BB0C2; }
+    .v-pill {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: 12px; font-weight: 700; padding: 3px 9px; border-radius: 5px;
+    }
+    .v-pill--win { background: rgba(114,203,207,0.12); color: #3AA8AD; }
+    .v-pill--miss { background: rgba(155,176,194,0.12); color: #7A96AD; }
+
+    /* =============================================
+       DEEP-DIVE TABS
+       ============================================= */
+    .tabs__nav {
+      display: flex; gap: 0; overflow-x: auto; border-bottom: 1px solid var(--pp-border);
+      -webkit-overflow-scrolling: touch; scrollbar-width: none; margin-bottom: 40px;
+    }
+    .tabs__nav::-webkit-scrollbar { display: none; }
+    .tab-btn {
+      flex-shrink: 0; padding: 14px 22px; font-size: 14px; font-weight: 600;
+      color: var(--pp-text-muted); cursor: pointer;
+      background: none; border: none; border-bottom: 3px solid transparent;
+      font-family: var(--pp-font); transition: all 0.18s; white-space: nowrap;
+    }
+    .tab-btn:hover { color: var(--pp-text); }
+    .tab-btn.active { color: var(--pp-accent); border-bottom-color: var(--pp-accent); }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+    .tab-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
+    .tab-content h3 { margin-bottom: 18px; }
+    .tab-content p { margin-bottom: 14px; }
+    .tab-sidebar {
+      background: var(--pp-bg-light); border: 1px solid var(--pp-border);
+      border-radius: var(--pp-radius-lg); padding: 28px; position: sticky; top: 140px;
+    }
+    .tab-sidebar h4 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.09em; color: var(--pp-text-muted); margin-bottom: 18px; }
+    .mini-table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+    .mini-table th, .mini-table td { padding: 9px 10px; border-bottom: 1px solid var(--pp-border-light); text-align: left; }
+    .mini-table th { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--pp-text-muted); }
+    .mini-table tbody td:first-child { font-weight: 600; }
+    .mini-table tbody tr:last-child td { border-bottom: none; }
+    .pullquote {
+      border-left: 3px solid var(--pp-accent); padding: 14px 18px;
+      background: var(--pp-accent-light); border-radius: 0 var(--pp-radius) var(--pp-radius) 0;
+      margin-top: 24px;
+    }
+    .pullquote p { font-style: italic; font-size: 14px; color: var(--pp-text); margin-bottom: 6px; }
+    .pullquote cite { font-size: 12px; color: var(--pp-text-muted); font-style: normal; }
+
+    @media (max-width: 800px) { .tab-2col { grid-template-columns: 1fr; } }
+
+    /* =============================================
+       FEATURE CARDS
+       ============================================= */
+    .feature-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .feat-card {
+      background: #fff; border: 1px solid var(--pp-border);
+      border-radius: var(--pp-radius-lg); padding: 28px;
+      transition: box-shadow 0.25s, transform 0.25s;
+    }
+    .feat-card:hover { box-shadow: var(--pp-shadow-md); transform: translateY(-2px); }
+    .feat-icon {
+      width: 48px; height: 48px; border-radius: 12px;
+      background: var(--pp-accent-light); display: flex; align-items: center; justify-content: center;
+      margin-bottom: 18px;
+    }
+    .feat-icon svg { width: 22px; height: 22px; color: var(--pp-accent); }
+    .feat-card h4 { font-size: 17px; margin-bottom: 9px; }
+    .feat-card p { font-size: 14px; line-height: 1.6; }
+    @media (max-width: 800px) { .feature-grid { grid-template-columns: 1fr; } }
+    @media (min-width: 600px) and (max-width: 800px) { .feature-grid { grid-template-columns: 1fr 1fr; } }
+
+    /* =============================================
+       TESTIMONIALS
+       ============================================= */
+    .testimonials { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .tcard {
+      background: #fff; border: 1px solid var(--pp-border);
+      border-radius: var(--pp-radius-lg); padding: 28px;
+      display: flex; flex-direction: column; gap: 20px;
+      transition: box-shadow 0.25s;
+    }
+    .tcard:hover { box-shadow: var(--pp-shadow-md); }
+    .tcard__stars { display: flex; gap: 3px; margin-bottom: 4px; }
+    .tcard__stars svg { width: 16px; height: 16px; fill: #F5A623; }
+    .tcard__quote { font-size: 15px; line-height: 1.65; color: var(--pp-text); font-style: italic; flex: 1; }
+    .tcard__author { display: flex; align-items: center; gap: 12px; margin-top: auto; }
+    .tcard__avatar { width: 44px; height: 44px; border-radius: 50%; object-fit: cover; flex-shrink: 0; }
+    .tcard__name { font-size: 14px; font-weight: 700; color: var(--pp-text); line-height: 1.2; }
+    .tcard__role { font-size: 12px; color: var(--pp-text-muted); margin-top: 2px; }
+    @media (max-width: 800px) { .testimonials { grid-template-columns: 1fr; } }
+
+    /* =============================================
+       DASHBOARD SHOWCASE
+       ============================================= */
+    .dashboard-section { position: relative; overflow: hidden; }
+    .dashboard-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
+    .dashboard-text h2 { margin-bottom: 20px; }
+    .dashboard-text p { margin-bottom: 16px; }
+    .check-list { list-style: none; margin-top: 24px; display: flex; flex-direction: column; gap: 12px; }
+    .check-list li {
+      display: flex; align-items: flex-start; gap: 12px;
+      font-size: 15px; font-weight: 500; color: var(--pp-text);
+    }
+    .check-list li::before {
+      content: ''; width: 20px; height: 20px; border-radius: 50%;
+      background: var(--pp-accent-light); border: 1.5px solid var(--pp-accent);
+      flex-shrink: 0; margin-top: 2px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='%2372CBCF' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='4 10 8 14 16 6'%3E%3C/polyline%3E%3C/svg%3E");
+      background-size: 12px; background-position: center; background-repeat: no-repeat;
+    }
+    .dashboard-img-wrap {
+      position: relative; border-radius: var(--pp-radius-lg);
+      box-shadow: var(--pp-shadow-lg); overflow: visible;
+    }
+    .dashboard-img-wrap img { border-radius: var(--pp-radius-lg); width: 100%; }
+    .dashboard-badge {
+      position: absolute; right: -24px; bottom: 32px;
+      background: #fff; border-radius: var(--pp-radius);
+      padding: 14px 18px; box-shadow: var(--pp-shadow-lg);
+      display: flex; align-items: center; gap: 14px; min-width: 200px;
+    }
+    .dashboard-badge__icon {
+      width: 40px; height: 40px; border-radius: 10px;
+      background: var(--pp-accent-light); display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .dashboard-badge__icon svg { width: 20px; height: 20px; color: var(--pp-accent); }
+    .dashboard-badge__num { font-size: 22px; font-weight: 800; color: var(--pp-text); line-height: 1; }
+    .dashboard-badge__text { font-size: 12px; color: var(--pp-text-muted); margin-top: 3px; }
+    @media (max-width: 800px) { .dashboard-grid { grid-template-columns: 1fr; } .dashboard-badge { right: 0; } }
+
+    /* =============================================
+       FAQ
+       ============================================= */
+    .faq-list { max-width: 760px; margin: 0 auto; display: flex; flex-direction: column; gap: 10px; }
+    .faq-item { border: 1px solid var(--pp-border); border-radius: var(--pp-radius); overflow: hidden; transition: box-shadow 0.2s; }
+    .faq-item:hover { box-shadow: var(--pp-shadow-sm); }
+    .faq-q {
+      width: 100%; padding: 18px 22px;
+      display: flex; justify-content: space-between; align-items: center; gap: 16px;
+      background: none; border: none; cursor: pointer;
+      font-family: var(--pp-font); font-size: 16px; font-weight: 600;
+      color: var(--pp-text); text-align: left;
+    }
+    .faq-q:hover { color: var(--pp-accent); }
+    .faq-icon { width: 22px; height: 22px; flex-shrink: 0; color: var(--pp-accent); transition: transform 0.3s; }
+    .faq-item.open .faq-icon { transform: rotate(45deg); }
+    .faq-a { max-height: 0; overflow: hidden; transition: max-height 0.34s ease, padding 0.34s ease; padding: 0 22px; }
+    .faq-item.open .faq-a { max-height: 500px; padding: 0 22px 20px; }
+    .faq-a p { font-size: 15px; line-height: 1.7; color: var(--pp-text-light); }
+
+    /* =============================================
+       FINAL CTA
+       ============================================= */
+    .final-cta { text-align: center; padding: clamp(72px, 10vw, 120px) 32px; }
+    .final-cta h2 { color: #fff; margin-bottom: 18px; }
+    .final-cta .sub { font-size: 19px; color: rgba(255,255,255,0.68); max-width: 540px; margin: 0 auto 40px; line-height: 1.65; }
+    .final-cta .cta-row { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+
+    /* =============================================
+       REAL WEBFLOW FOOTER
+       ============================================= */
+    .pp-footer { background: var(--pp-primary); padding: 64px 0 0; }
+    .pp-footer__grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px;
+      padding-bottom: 48px; border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .pp-footer__col-label {
+      font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em;
+      color: rgba(255,255,255,0.45); margin-bottom: 16px;
+    }
+    .pp-footer__links { display: flex; flex-direction: column; gap: 10px; }
+    .pp-footer__links a { font-size: 14px; font-weight: 500; color: rgba(255,255,255,0.65); transition: color 0.18s; }
+    .pp-footer__links a:hover { color: #fff; }
+    .pp-footer__bottom {
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+      padding: 20px 0; font-size: 13px; color: rgba(255,255,255,0.38);
+    }
+    .pp-footer__bottom a { color: rgba(255,255,255,0.45); }
+    .pp-footer__bottom a:hover { color: rgba(255,255,255,0.8); }
+    .pp-footer__legal { display: flex; gap: 20px; }
+    @media (max-width: 800px) {
+      .pp-footer__grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 500px) {
+      .pp-footer__grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- =============================================
+       NAV TOP BANNER (matches live site)
+       ============================================= -->
+  <div class="pp-nav-top">
+    NEW RELEASE: The PerfectPatient AI Mentor&nbsp;
+    <a href="https://www.patientpartner.com/ai-mentor">Learn More →</a>
+  </div>
+
+  <!-- =============================================
+       MAIN NAV (matches live site)
+       ============================================= -->
+  <div class="pp-nav-bottom">
+    <div class="pp-nav-bottom__inner">
+      <!-- Logo -->
+      <a href="https://www.patientpartner.com/" class="pp-logo" aria-label="PatientPartner home">
+        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 213 50" fill="none" preserveAspectRatio="xMidYMid meet" aria-hidden="true" role="img">
+          <path d="M7.44912 31.2322H3.8882V36.3658C3.8882 37.0997 3.70494 37.6564 3.33836 38.0359C2.97181 38.415 2.50923 38.6048 1.95065 38.6048C1.36589 38.6048 0.894595 38.4191 0.536756 38.0482C0.178919 37.6687 0 37.1161 0 36.3904V22.4125C0 21.6043 0.196374 21.027 0.589122 20.6807C0.981873 20.3343 1.6059 20.1611 2.46123 20.1611H7.44912C8.92411 20.1611 10.0587 20.2683 10.853 20.4828C11.6385 20.6889 12.3149 21.0311 12.8822 21.5095C13.4582 21.9878 13.8946 22.5733 14.1913 23.266C14.4881 23.9587 14.6364 24.738 14.6364 25.6038C14.6364 27.4512 14.0342 28.8531 12.8298 29.8098C11.6254 30.7582 9.83182 31.2322 7.44912 31.2322ZM6.50655 22.9197H3.8882V28.4614H6.50655C7.42294 28.4614 8.18663 28.3706 8.79758 28.1892C9.41725 28.0079 9.88852 27.7111 10.2115 27.2985C10.5344 26.8863 10.6959 26.346 10.6959 25.6783C10.6959 24.8781 10.4471 24.2268 9.94963 23.7237C9.39107 23.1875 8.24337 22.9197 6.50655 22.9197Z" fill="currentColor"/>
+          <path d="M24.5713 36.6995C23.7072 37.3345 22.8693 37.8129 22.0577 38.1343C21.2547 38.4478 20.3514 38.6046 19.3477 38.6046C18.4313 38.6046 17.624 38.4355 16.9258 38.0974C16.2363 37.7511 15.7039 37.2849 15.3286 36.6995C14.9533 36.1141 14.7656 35.4789 14.7656 34.7945C14.7656 33.871 15.0755 33.0834 15.6951 32.4318C16.3148 31.7805 17.1658 31.3433 18.248 31.1206C18.4749 31.0711 19.0379 30.9598 19.9368 30.7866C20.8358 30.6135 21.6038 30.4567 22.241 30.3167C22.8868 30.1681 23.585 29.9909 24.3356 29.7846C24.292 28.8942 24.1 28.2426 23.7596 27.8303C23.4279 27.4096 22.7341 27.1995 21.678 27.1995C20.7703 27.1995 20.0852 27.3191 19.6226 27.5581C19.1688 27.7972 18.776 28.1558 18.4444 28.6343C18.1214 29.1125 17.8902 29.4301 17.7505 29.5868C17.6196 29.7351 17.3316 29.8095 16.8865 29.8095C16.485 29.8095 16.1359 29.69 15.8392 29.4506C15.5511 29.2033 15.4071 28.8901 15.4071 28.5107C15.4071 27.9168 15.6297 27.3396 16.0748 26.7788C16.5199 26.218 17.2138 25.7562 18.1564 25.3935C19.099 25.0305 20.2728 24.8491 21.678 24.8491C23.249 24.8491 24.484 25.0264 25.3829 25.3809C26.2819 25.7272 26.9147 26.2798 27.2812 27.0387C27.6565 27.7972 27.8442 28.8034 27.8442 30.0568C27.8442 30.8485 27.8398 31.5206 27.8311 32.0732C27.8311 32.6258 27.8267 33.2402 27.818 33.9164C27.818 34.5513 27.9271 35.2152 28.1453 35.9079C28.3722 36.5923 28.4856 37.0336 28.4856 37.2313C28.4856 37.5776 28.3111 37.8952 27.962 38.1838C27.6216 38.4642 27.2332 38.6046 26.7968 38.6046C26.4303 38.6046 26.0681 38.4437 25.7102 38.122C25.3524 37.7921 24.9727 37.3181 24.5713 36.6995ZM24.3356 31.8133C23.8119 31.9949 23.0483 32.1886 22.0446 32.3949C21.0496 32.5926 20.3601 32.7412 19.9761 32.8402C19.5921 32.9308 19.2255 33.1162 18.8764 33.3966C18.5273 33.6688 18.3527 34.0523 18.3527 34.5472C18.3527 35.0585 18.5579 35.4956 18.9681 35.8584C19.3782 36.2129 19.915 36.3901 20.5783 36.3901C21.2853 36.3901 21.9355 36.246 22.529 35.9574C23.1312 35.6606 23.5719 35.2812 23.8512 34.8194C24.1742 34.3081 24.3356 33.4669 24.3356 32.2958V31.8133Z" fill="currentColor"/>
+          <path d="M62.492 26.7414V27.1498C63.1205 26.3663 63.8055 25.7932 64.5475 25.4302C65.298 25.0593 66.1579 24.8735 67.1265 24.8735C68.0691 24.8735 68.9112 25.0675 69.6532 25.4551C70.3952 25.8425 70.9492 26.3909 71.3159 27.1003C71.5514 27.5125 71.7042 27.9579 71.7739 28.436C71.8439 28.9145 71.8788 29.5248 71.8788 30.267V36.5508C71.8788 37.227 71.713 37.7383 71.3812 38.0846C71.0582 38.4312 70.6351 38.6044 70.1115 38.6044C69.579 38.6044 69.147 38.4271 68.8155 38.0723C68.4837 37.7178 68.3179 37.2106 68.3179 36.5508V30.9227C68.3179 29.8093 68.1521 28.9599 67.8203 28.3742C67.4973 27.7806 66.8472 27.4838 65.8698 27.4838C65.2327 27.4838 64.6524 27.6652 64.1285 28.0279C63.6049 28.3824 63.2207 28.8732 62.9764 29.4999C62.802 30.003 62.7145 30.9432 62.7145 32.3203V36.5508C62.7145 37.2352 62.5443 37.7509 62.2039 38.0972C61.8724 38.4353 61.4404 38.6044 60.9079 38.6044C60.3932 38.6044 59.9698 38.4271 59.6382 38.0723C59.3064 37.7178 59.1406 37.2106 59.1406 36.5508V26.7909C59.1406 26.1478 59.289 25.6693 59.5856 25.3561C59.8826 25.0344 60.2883 24.8735 60.8033 24.8735C61.1174 24.8735 61.4011 24.9439 61.6543 25.0839C61.9073 25.2242 62.1082 25.4343 62.2565 25.7147C62.4134 25.9951 62.492 26.3373 62.492 26.7414Z" fill="currentColor"/>
+          <path d="M90.5115 31.2322H86.9505V36.3658C86.9505 37.0997 86.7673 37.6564 86.4006 38.0359C86.0342 38.415 85.5715 38.6048 85.013 38.6048C84.4282 38.6048 83.9569 38.4191 83.5991 38.0482C83.2413 37.6687 83.0625 37.1161 83.0625 36.3904V22.4125C83.0625 21.6043 83.2587 21.027 83.6514 20.6807C84.0444 20.3343 84.6682 20.1611 85.5236 20.1611H90.5115C91.9865 20.1611 93.1212 20.2683 93.9155 20.4828C94.7009 20.6889 95.3772 21.0311 95.9446 21.5095C96.5205 21.9878 96.9569 22.5733 97.2536 23.266C97.5506 23.9587 97.6989 24.738 97.6989 25.6038C97.6989 27.4512 97.0967 28.8531 95.8923 29.8098C94.6879 30.7582 92.8943 31.2322 90.5115 31.2322ZM89.5688 22.9197H86.9505V28.4614H89.5688C90.4854 28.4614 91.249 28.3706 91.8601 28.1892C92.4797 28.0079 92.951 27.7111 93.274 27.2985C93.5966 26.8863 93.7583 26.346 93.7583 25.6783C93.7583 24.8781 93.5095 24.2268 93.0122 23.7237C92.4534 23.1875 91.3057 22.9197 89.5688 22.9197Z" fill="currentColor"/>
+        </svg>
+      </a>
+
+      <!-- Nav Links -->
+      <nav class="pp-nav-links" aria-label="Main navigation">
+        <!-- Solutions -->
+        <div class="pp-nav-item">
+          <button class="pp-nav-btn">
+            Solutions
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div class="pp-dropdown">
+            <a href="https://www.patientpartner.com/ai-mentor">AI Mentor</a>
+            <a href="https://www.patientpartner.com/pharma-engagment-software">For Pharma</a>
+            <a href="https://www.patientpartner.com/med-device-engagement-software">For Med-Tech</a>
+            <a href="https://www.patientpartner.com/clinical-trial-engagement-software">For Clinical Trials</a>
+            <a href="https://www.patientpartner.com/marketing-service-page">Marketing</a>
+            <a href="https://www.patientpartner.com/patient-service-page">Patient Services</a>
+          </div>
+        </div>
+        <!-- Resources -->
+        <div class="pp-nav-item">
+          <button class="pp-nav-btn">
+            Resources
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div class="pp-dropdown">
+            <a href="https://www.patientpartner.com/resources">Resource Center</a>
+            <a href="https://www.patientpartner.com/blog-page">Blog</a>
+            <a href="https://www.patientpartner.com/patientpod">PatientPod</a>
+            <a href="https://www.patientpartner.com/compliance-overview">Compliance Overview</a>
+            <a href="https://www.patientpartner.com/faq">FAQs</a>
+          </div>
+        </div>
+        <!-- Company -->
+        <div class="pp-nav-item">
+          <button class="pp-nav-btn">
+            Company
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div class="pp-dropdown">
+            <a href="https://www.patientpartner.com/about-us">About Us</a>
+            <a href="https://www.patientpartner.com/how-patientpartner-works">How It Works</a>
+            <a href="https://www.patientpartner.com/patientpartner-gives-back">How We Give Back</a>
+            <a href="https://www.patientpartner.com/careers">Careers</a>
+          </div>
+        </div>
+        <!-- Compare (current page highlight) -->
+        <a href="/compare" class="pp-nav-btn" style="color: var(--pp-accent);">Compare</a>
+      </nav>
+
+      <div class="pp-nav-cta">
+        <a href="https://www.patientpartner.com/#" class="btn btn--teal">Book a Demo</a>
+      </div>
+
+      <button class="pp-hamburger" aria-label="Menu">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- =============================================
+       HERO
+       ============================================= -->
+  <section class="hero" id="top">
+    <div class="hero__glow-1"></div>
+    <div class="hero__glow-2"></div>
+    <div class="pp-wrap">
+      <div class="hero__inner">
+        <div class="hero__copy">
+          <div class="hero__label">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+            Compare Platforms
+          </div>
+          <h1>See Why Pharma Teams Choose <em>PatientPartner</em></h1>
+          <p class="hero__sub">The only enterprise-grade peer-to-peer mentorship platform built for real-time patient activation. Compare us to the alternatives — side by side.</p>
+          <div class="hero__ctas">
+            <a href="https://www.patientpartner.com/#" class="btn btn--teal btn--lg">Book a Demo</a>
+            <a href="#comparison" class="btn btn--ghost-white btn--lg">See How We Compare ↓</a>
+          </div>
+        </div>
+        <div class="hero__image-wrap">
+          <!-- PatientPartner dashboard from Webflow CDN -->
+          <img
+            class="hero__screenshot"
+            src="https://cdn.prod.website-files.com/67ab8a022edd6044d96d2597/67c5bd87151291dd3febd6a0_website.webp"
+            alt="PatientPartner analytics dashboard showing patient engagement metrics"
+            loading="eager"
+            width="640"
+            height="420"
+          >
+          <!-- Floating stat badge -->
+          <div class="hero__badge">
+            <div class="hero__badge-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+            </div>
+            <div>
+              <div class="hero__badge-num">68%</div>
+              <div class="hero__badge-label">More Patient Starts</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =============================================
+       STICKY COMPETITOR SELECTOR
+       ============================================= -->
+  <div class="comp-nav" id="comparison">
+    <div class="pp-wrap">
+      <div class="comp-nav__inner">
+        <button class="comp-btn active" data-target="all">Overview</button>
+        <button class="comp-btn" data-target="snow">vs. Snow Companies</button>
+        <button class="comp-btn" data-target="reverba">vs. Reverba</button>
+        <button class="comp-btn" data-target="internal">vs. Internal Programs</button>
+        <button class="comp-btn" data-target="ai">vs. AI Platforms</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =============================================
+       CLIENT LOGO MARQUEE
+       ============================================= -->
+  <div class="logo-bar">
+    <div class="logo-bar__label">Trusted by leading pharma and med-tech organizations</div>
+    <div class="logo-bar__track-wrap">
+      <div class="logo-bar__track">
+        <!-- Set 1 -->
+        <img class="logo-bar__logo" src="https://cdn.prod.website-files.com/67ab8a022edd6044d96d2597/67c5debc30d199ce29943278_sanofi-logo-2022%20logo.webp" alt="Sanofi" height="32">
+        <img class="logo-bar__logo" src="https://cdn.prod.website-files.com/67ab8a022edd6044d96d2597/67c5cab6dff39699b7a1a8e9_GSK%20logo.webp" alt="GSK" height="32">
+        <img class="logo-bar__logo" src="https://cdn.prod.website-files.com/67ab8a022edd6044d96d2597/67c5df0a72a122ef1f4e7cc6_g12.webp" alt="Takeda" height="32">
+        <img class="logo-bar__logo" src="https://cdn.prod.website-files.com/67ab8a022edd6044d96d2597/67c5dfc42b0a855dac612735_abbvie-logo-1%20logo.webp" alt="AbbVie" height="32">
+        <img class="logo-bar__logo" src="https://cdn.prod.website-files.com/67ab8a022edd6044d96d2597/67c5cc10f963392152218cb8_Logo_Bayer%20logo.webp" alt="Bayer" height="32">
+        <img class="logo-bar__logo" src="https://cdn.prod.website-files.com/67ab8a022edd6044d96d2597/67c5cda5b887c2551f6be945_Medtronic_Logo%20logo.webp" alt="Medtronic" height="32">
+        <img class="logo-bar__logo" src="https://cdn.prod.website-files.com/67ab8a022edd6044d96d2597/67c5ce13fed080ab35d2b6fb_2fc6eb431d7d6ee91cb61ebde361d0fc%201.webp" alt="Philips" height="32">
+        <img class="logo-bar__logo" src="https://cdn.prod.website-files.com/67ab8a022edd6044d96d2597/67c5e2d74205183dc33fdc01_4a347be551e2614215d410b2734ed077%201.webp" alt="Siemens Healthineers" height="32">
+        <img class="logo-bar__logo" src="https://cdn.prod.website-files.com/67ab8a022edd6044d96d2597/67c5e33316751e01343af96a_pngegg%20(13)%201.webp" alt="Roche" height="32">
+        <!-- Set 2 (duplicate for seamless loop) -->
+        <img class="logo-bar__logo" src="https://cdn.prod.website-files.com/67ab8a022edd6044d96d2597/67c5debc30d199ce29943278_sanofi-logo-2022%20logo.webp" alt="Sanofi" height="32">
+        <img class="logo-bar__logo" src="https://cdn.prod.website-files.com/67ab8a022edd6044d96d2597/67c5cab6dff39699b7a1a8e9_GSK%20logo.webp" alt="GSK" height="32">
+        <img class="logo-bar__logo" src="https://cdn.prod.website-files.com/67ab8a022edd6044d96d2597/67c5df0a72a122ef1f4e7cc6_g12.webp" alt="Takeda" height="32">
+        <img class="logo-bar__logo" src="https://cdn.prod.website-files.com/67ab8a022edd6044d96d2597/67c5dfc42b0a855dac612735_abbvie-logo-1%20logo.webp" alt="AbbVie" height="32">
+        <img class="logo-bar__logo" src="https://cdn.prod.website-files.com/67ab8a022edd6044d96d2597/67c5cc10f963392152218cb8_Logo_Bayer%20logo.webp" alt="Bayer" height="32">
+        <img class="logo-bar__logo" src="https://cdn.prod.website-files.com/67ab8a022edd6044d96d2597/67c5cda5b887c2551f6be945_Medtronic_Logo%20logo.webp" alt="Medtronic" height="32">
+        <img class="logo-bar__logo" src="https://cdn.prod.website-files.com/67ab8a022edd6044d96d2597/67c5ce13fed080ab35d2b6fb_2fc6eb431d7d6ee91cb61ebde361d0fc%201.webp" alt="Philips" height="32">
+        <img class="logo-bar__logo" src="https://cdn.prod.website-files.com/67ab8a022edd6044d96d2597/67c5e2d74205183dc33fdc01_4a347be551e2614215d410b2734ed077%201.webp" alt="Siemens Healthineers" height="32">
+        <img class="logo-bar__logo" src="https://cdn.prod.website-files.com/67ab8a022edd6044d96d2597/67c5e33316751e01343af96a_pngegg%20(13)%201.webp" alt="Roche" height="32">
+      </div>
+    </div>
+  </div>
+
+  <!-- =============================================
+       TRUST BAR
+       ============================================= -->
+  <div style="border-bottom: 1px solid var(--pp-border-light);">
+    <div class="pp-wrap">
+      <div class="trust-bar">
+        <div class="trust-bar__inner">
+          <span class="trust-bar__label">100% Compliant</span>
+          <div class="trust-bar__divider"></div>
+          <span class="trust-badge">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+            HIPAA Compliant
+          </span>
+          <span class="trust-badge">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+            SOC 2 Certified
+          </span>
+          <span class="trust-badge">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+            ISO 27001
+          </span>
+          <span class="trust-badge">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+            GDPR Compliant
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =============================================
+       PROBLEM FRAMING + STATS
+       ============================================= -->
+  <section class="section">
+    <div class="pp-wrap">
+      <div class="problem">
+        <div class="problem__text">
+          <h2>Patients Enroll. Patients Get Approved. Then Nothing.</h2>
+          <p class="problem__lead">The pharma industry spends billions on access programs — prior auth, copay, hub services. But patients still don't start. Not because they can't. Because they're scared, confused, and have no one to talk to.</p>
+          <p>That gap — between "approved" and "actually starting" — is where treatment dropout lives. It's also where PatientPartner operates. We connect hesitating patients with real people who've been through the same thing, in real time.</p>
+          <p style="font-weight:600; color: var(--pp-text);">The result: measurable outcomes that legacy models can't deliver.</p>
+        </div>
+        <div class="problem__stats">
+          <div class="stat-card">
+            <div class="stat-card__num">68%</div>
+            <div class="stat-card__label">Increase in new patient starts</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card__num">71%</div>
+            <div class="stat-card__label">Say mentorship was critical to their treatment decision</div>
+          </div>
+          <div class="stat-card stat-card--dark">
+            <div class="stat-card__num">90%</div>
+            <div class="stat-card__label">Patient confidence boost after mentor connection</div>
+          </div>
+          <div class="stat-card stat-card--dark">
+            <div class="stat-card__num">133.5</div>
+            <div class="stat-card__label">More days on therapy vs. non-mentored patients</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =============================================
+       DASHBOARD SHOWCASE
+       ============================================= -->
+  <section class="section section--alt dashboard-section">
+    <div class="pp-wrap">
+      <div class="dashboard-grid">
+        <div class="dashboard-text">
+          <h2>Insights You Can't Get from Traditional Programs</h2>
+          <p>Legacy agencies give you activity reports. PatientPartner gives you a real-time window into patient behavior — sentiment, readiness, conversion, and adherence — all attributed to mentor engagement.</p>
+          <ul class="check-list">
+            <li>Real-time mentee readiness and sentiment scores</li>
+            <li>Conversion from enrollment to therapy start</li>
+            <li>Adherence tracking: 133.5 more days on therapy</li>
+            <li>Program-level ROI tied to outcomes, not activity</li>
+            <li>CRM integrations: Salesforce, HubSpot, Veeva</li>
+          </ul>
+        </div>
+        <div class="dashboard-img-wrap">
+          <img
+            src="https://cdn.prod.website-files.com/67ab8a022edd6044d96d2597/67c5bd87151291dd3febd6a0_website.webp"
+            alt="PatientPartner platform dashboard showing real-time patient analytics and mentorship metrics"
+            width="580" height="420" loading="lazy"
+          >
+          <div class="dashboard-badge">
+            <div class="dashboard-badge__icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline><polyline points="16 7 22 7 22 13"></polyline></svg>
+            </div>
+            <div>
+              <div class="dashboard-badge__num">29%</div>
+              <div class="dashboard-badge__text">Improved adherence</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =============================================
+       MAIN COMPARISON TABLE
+       ============================================= -->
+  <section class="section" id="table">
+    <div class="pp-wrap">
+      <div class="section__head">
+        <h2>PatientPartner vs. The Alternatives</h2>
+        <p>A side-by-side look at how the leading patient engagement approaches compare across the dimensions that matter most to enterprise pharma teams.</p>
+      </div>
+
+      <div class="table-wrap">
+        <table class="cmp-table">
+          <thead>
+            <tr>
+              <th>Dimension</th>
+              <th class="pp-col">PatientPartner</th>
+              <th>Snow Companies</th>
+              <th>Reverba</th>
+              <th>Internal Program</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Program Type</td>
+              <td class="pp-col"><span class="v-pill v-pill--win">SaaS Platform</span></td>
+              <td>Agency (Omnicom)</td>
+              <td>Agency + Platform</td>
+              <td>DIY / Manual</td>
+            </tr>
+            <tr>
+              <td>Connection Model</td>
+              <td class="pp-col"><span class="v-win">Real-time, on-demand</span></td>
+              <td>Coordinator-scheduled calls</td>
+              <td>Scheduled, coordinator-managed</td>
+              <td>Coordinator-managed</td>
+            </tr>
+            <tr>
+              <td>Time to First Connection</td>
+              <td class="pp-col"><span class="v-win">Same day</span></td>
+              <td><span class="v-miss">3–7 days</span></td>
+              <td><span class="v-miss">7–14 days</span></td>
+              <td><span class="v-miss">Varies</span></td>
+            </tr>
+            <tr>
+              <td>Compliance Monitoring</td>
+              <td class="pp-col"><span class="v-win">Automated KMS + AI flagging</span></td>
+              <td>Manual staff monitoring</td>
+              <td>Staff on every call</td>
+              <td>Manual, inconsistent</td>
+            </tr>
+            <tr>
+              <td>Technology</td>
+              <td class="pp-col"><span class="v-win">Purpose-built SaaS</span></td>
+              <td>Salesforce + manual</td>
+              <td>reverbaBRIDGE + manual</td>
+              <td>Excel, email, CRM</td>
+            </tr>
+            <tr>
+              <td>Scalability</td>
+              <td class="pp-col"><span class="v-win">Multi-brand SaaS</span></td>
+              <td><span class="v-miss">Rebuilt per program</span></td>
+              <td><span class="v-miss">Built per program</span></td>
+              <td><span class="v-miss">Limited by headcount</span></td>
+            </tr>
+            <tr>
+              <td>ROI Measurement</td>
+              <td class="pp-col"><span class="v-win">Real-time dashboard</span></td>
+              <td>Activity metrics, retrospective</td>
+              <td>Excel reports, manual</td>
+              <td>Inconsistent</td>
+            </tr>
+            <tr>
+              <td>Implementation</td>
+              <td class="pp-col"><span class="v-win">6–8 weeks</span></td>
+              <td>4–6 wks + rebuild per brand</td>
+              <td>Several months</td>
+              <td>Varies by team</td>
+            </tr>
+            <tr>
+              <td>Pricing Model</td>
+              <td class="pp-col">Subscription + engagement</td>
+              <td>Agency SOW ($300K–$1.5M)</td>
+              <td>Agency SOW (~$1M/program)</td>
+              <td>Internal headcount</td>
+            </tr>
+            <tr>
+              <td>HIPAA / SOC 2 / ISO 27001</td>
+              <td class="pp-col"><span class="v-win">✓ Certified</span></td>
+              <td><span class="v-partial">Process-based</span></td>
+              <td><span class="v-partial">Process-based</span></td>
+              <td><span class="v-miss">Variable</span></td>
+            </tr>
+            <tr>
+              <td>White-label Ready</td>
+              <td class="pp-col"><span class="v-win">✓ Built-in</span></td>
+              <td><span class="v-miss">✗ Not available</span></td>
+              <td><span class="v-partial">Limited</span></td>
+              <td>N/A</td>
+            </tr>
+            <tr>
+              <td>CRM Integration</td>
+              <td class="pp-col"><span class="v-win">Salesforce, HubSpot, Veeva</span></td>
+              <td>Salesforce only</td>
+              <td>MS Dynamics, limited</td>
+              <td>None standardized</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div style="text-align:center; margin-top:32px; display:flex; gap:16px; justify-content:center; flex-wrap:wrap;">
+        <a href="patientpartner-vs-snow-companies.html" class="btn btn--outline">PatientPartner vs. Snow →</a>
+        <a href="patientpartner-vs-reverba.html" class="btn btn--outline">PatientPartner vs. Reverba →</a>
+        <a href="patientpartner-vs-internal-programs.html" class="btn btn--outline">PatientPartner vs. Internal →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- =============================================
+       DEEP-DIVE TABS
+       ============================================= -->
+  <section class="section section--alt" id="deep-dive">
+    <div class="pp-wrap">
+      <div class="section__head">
+        <h2>Go Deeper: Compare by What Matters</h2>
+        <p>Explore the differences across the decision criteria pharma and med-tech buyers use when evaluating patient engagement partners.</p>
+      </div>
+
+      <div class="tabs__nav" role="tablist">
+        <button class="tab-btn active" role="tab" data-tab="speed">Speed &amp; Activation</button>
+        <button class="tab-btn" role="tab" data-tab="compliance">Compliance</button>
+        <button class="tab-btn" role="tab" data-tab="technology">Technology</button>
+        <button class="tab-btn" role="tab" data-tab="roi">ROI &amp; Data</button>
+        <button class="tab-btn" role="tab" data-tab="scale">Scalability</button>
+      </div>
+
+      <!-- Speed -->
+      <div class="tab-panel active" id="tab-speed">
+        <div class="tab-2col">
+          <div class="tab-content">
+            <h3>When Hesitation Is Highest, Who Connects Fastest?</h3>
+            <p>Patients drop off in the gap between "approved" and "first dose." The speed of peer connection at that moment is the single most important variable in converting hesitation into action.</p>
+            <p><strong>PatientPartner</strong> matches patients in real time based on disease state, treatment experience, and demographics. Mentors respond same day. No coordinator overhead, no scheduling friction.</p>
+            <p><strong>Snow Companies</strong> relies on Mentor Program Specialists who "coordinate schedules for Mentees/Mentors." Average lag: 3–7 days to first connection. The hesitation window compounds with every passing day.</p>
+            <p><strong>Reverba</strong> targets a 3-touch cadence within 7–14 days of signup. Conversion degrades as complex onboarding creates dropout before the first call even happens.</p>
+            <p><strong>Internal programs</strong> depend entirely on team bandwidth. Speed and quality degrade as programs scale and as key operators leave.</p>
+          </div>
+          <div class="tab-sidebar">
+            <h4>First Connection Timeline</h4>
+            <table class="mini-table">
+              <thead><tr><th>Provider</th><th>Time to Connect</th></tr></thead>
+              <tbody>
+                <tr><td style="color:var(--pp-accent);">PatientPartner</td><td><strong>Same day</strong></td></tr>
+                <tr><td>Snow Companies</td><td>3–7 days</td></tr>
+                <tr><td>Reverba</td><td>7–14 days</td></tr>
+                <tr><td>Internal</td><td>Varies</td></tr>
+              </tbody>
+            </table>
+            <div class="pullquote">
+              <p>"If you can do anything that makes it techy, you're gonna kill it."</p>
+              <cite>— Former Client Partner, Agency Model</cite>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Compliance -->
+      <div class="tab-panel" id="tab-compliance">
+        <div class="tab-2col">
+          <div class="tab-content">
+            <h3>Automated Compliance at Scale, Not Just a Process</h3>
+            <p>For pharma compliance teams, the question isn't whether a vendor is "compliant" — it's whether compliance can scale without scaling headcount.</p>
+            <p><strong>PatientPartner</strong> uses a proprietary Keyword Monitoring System (KMS) to automatically flag adverse events, off-label discussions, and compliance triggers in every mentor conversation. Every interaction is logged, auditable, and certified against HIPAA, SOC 2, and ISO 27001.</p>
+            <p><strong>Snow Companies</strong> handles compliance through manual staff oversight. Strong process — but operationally expensive. Scaling requires proportional staff increases.</p>
+            <p><strong>Reverba</strong> requires a staff member on every call. Their own materials describe "FDA-compliant long-arm extension" as their value proposition. High-touch, limited by human bandwidth.</p>
+            <p><strong>Internal programs</strong> have no standardized monitoring. Compliance quality degrades with staff turnover.</p>
+          </div>
+          <div class="tab-sidebar">
+            <h4>Compliance Capabilities</h4>
+            <table class="mini-table">
+              <thead><tr><th>Capability</th><th>PP</th><th>Others</th></tr></thead>
+              <tbody>
+                <tr><td>Automated AE flagging</td><td><span class="v-win">✓</span></td><td><span class="v-miss">✗</span></td></tr>
+                <tr><td>Real-time escalation</td><td><span class="v-win">✓</span></td><td><span class="v-miss">✗</span></td></tr>
+                <tr><td>Full audit trail</td><td><span class="v-win">✓</span></td><td><span class="v-partial">~</span></td></tr>
+                <tr><td>SOC 2 + ISO 27001</td><td><span class="v-win">✓</span></td><td><span class="v-miss">✗</span></td></tr>
+                <tr><td>Scales without staff</td><td><span class="v-win">✓</span></td><td><span class="v-miss">✗</span></td></tr>
+              </tbody>
+            </table>
+            <div class="pullquote">
+              <p>"They're still faxing forms. If someone comes in with tech, it's game over."</p>
+              <cite>— Former Industry Executive</cite>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Technology -->
+      <div class="tab-panel" id="tab-technology">
+        <div class="tab-2col">
+          <div class="tab-content">
+            <h3>A Platform vs. a Process</h3>
+            <p>The fundamental difference is architectural. PatientPartner is a purpose-built SaaS platform. Competitors are service operations — some with technology layered on top.</p>
+            <p><strong>PatientPartner:</strong> Real-time mentor matching algorithm. In-platform asynchronous messaging. Automated compliance monitoring (KMS). Real-time reporting dashboard. Built-in LMS for mentor training. API integrations with Salesforce, HubSpot, and Veeva. White-label deployment.</p>
+            <p><strong>Snow Companies:</strong> No proprietary platform. Operates through Salesforce CRM and Veeva Vault PromoMats. Programs managed via phone lines, SMS devices, and manually distributed surveys.</p>
+            <p><strong>Reverba:</strong> reverbaBRIDGE exists, but programs run through high-touch service delivery. Technology is described by former employees as their "biggest weakness." Reporting: Excel.</p>
+            <p><strong>Internal:</strong> Microsoft Dynamics, Excel, email chains. No standardized communication, scheduling, or analytics platform.</p>
+          </div>
+          <div class="tab-sidebar">
+            <h4>Technology Capabilities</h4>
+            <table class="mini-table">
+              <thead><tr><th>Feature</th><th>PP</th><th>Snow</th><th>Reverba</th></tr></thead>
+              <tbody>
+                <tr><td>Matching algorithm</td><td><span class="v-win">✓</span></td><td><span class="v-miss">✗</span></td><td><span class="v-miss">✗</span></td></tr>
+                <tr><td>Async in-app chat</td><td><span class="v-win">✓</span></td><td><span class="v-miss">✗</span></td><td><span class="v-miss">✗</span></td></tr>
+                <tr><td>Real-time dashboard</td><td><span class="v-win">✓</span></td><td><span class="v-miss">✗</span></td><td><span class="v-miss">✗</span></td></tr>
+                <tr><td>API integrations</td><td><span class="v-win">✓</span></td><td><span class="v-partial">~</span></td><td><span class="v-miss">✗</span></td></tr>
+                <tr><td>White-label</td><td><span class="v-win">✓</span></td><td><span class="v-miss">✗</span></td><td><span class="v-partial">~</span></td></tr>
+                <tr><td>Mentor LMS</td><td><span class="v-win">✓</span></td><td><span class="v-miss">✗</span></td><td><span class="v-miss">✗</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ROI -->
+      <div class="tab-panel" id="tab-roi">
+        <div class="tab-2col">
+          <div class="tab-content">
+            <h3>Activity Metrics vs. Outcome Attribution</h3>
+            <p>Legacy agencies report how many calls happened and how many patients were "engaged." PatientPartner measures what happened next — did the patient start treatment, and did they stay on it?</p>
+            <p><strong>PatientPartner</strong> provides real-time dashboards showing mentee readiness, sentiment scores, conversion to therapy start, and adherence over time. Outcome data tied to engagement through a proprietary attribution model.</p>
+            <p><strong>Snow Companies</strong> delivers monthly reports from Salesforce exports. ROI modeled retrospectively using lifetime value assumptions ($10K–$100K/year). Estimated 3:1–4:1 ROI, self-reported.</p>
+            <p><strong>Reverba</strong> provides weekly or monthly Excel reports. Clients have expressed frustration over the lack of automation and desire for "professional, real-time dashboards."</p>
+          </div>
+          <div class="tab-sidebar">
+            <h4>PatientPartner Outcomes</h4>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+              <div class="stat-card" style="padding:18px;">
+                <div class="stat-card__num" style="font-size:32px;">68%</div>
+                <div class="stat-card__label">More new patient starts</div>
+              </div>
+              <div class="stat-card" style="padding:18px;">
+                <div class="stat-card__num" style="font-size:32px;">29%</div>
+                <div class="stat-card__label">Improved adherence</div>
+              </div>
+              <div class="stat-card" style="padding:18px;">
+                <div class="stat-card__num" style="font-size:32px;">90%</div>
+                <div class="stat-card__label">Confidence boost</div>
+              </div>
+              <div class="stat-card" style="padding:18px;">
+                <div class="stat-card__num" style="font-size:32px;">133.5</div>
+                <div class="stat-card__label">More days on therapy</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scale -->
+      <div class="tab-panel" id="tab-scale">
+        <div class="tab-2col">
+          <div class="tab-content">
+            <h3>Deploy Once. Scale Everywhere.</h3>
+            <p>Enterprise pharma runs multiple brands across multiple disease states. The right patient engagement partner doesn't require rebuilding for each one.</p>
+            <p><strong>PatientPartner</strong> is a modular platform. Deploy one brand, replicate across disease states with minimal rebuild. Multi-brand, multinational programs run from a single platform instance.</p>
+            <p><strong>Snow Companies</strong> requires labor-intensive program builds for each new brand. Omnicom ownership adds corporate approval layers that slow execution.</p>
+            <p><strong>Reverba</strong> faces similar per-program rebuild requirements. Mentor recruitment for rare disease can take 8+ months. Growth-capital pressure conflicts with their service-heavy delivery model.</p>
+            <p><strong>Internal programs</strong> hit a hard ceiling. Limited by bandwidth and turnover. As programs expand, training consistency and compliance processes degrade.</p>
+          </div>
+          <div class="tab-sidebar">
+            <h4>Scalability at a Glance</h4>
+            <table class="mini-table">
+              <thead><tr><th>Factor</th><th>PP</th><th>Agencies</th><th>Internal</th></tr></thead>
+              <tbody>
+                <tr><td>Multi-brand platform</td><td><span class="v-win">✓</span></td><td><span class="v-miss">✗</span></td><td><span class="v-miss">✗</span></td></tr>
+                <tr><td>Repeatable deployment</td><td><span class="v-win">✓</span></td><td><span class="v-miss">✗</span></td><td><span class="v-miss">✗</span></td></tr>
+                <tr><td>No headcount scaling</td><td><span class="v-win">✓</span></td><td><span class="v-miss">✗</span></td><td><span class="v-miss">✗</span></td></tr>
+                <tr><td>Standardized onboarding</td><td><span class="v-win">✓</span></td><td><span class="v-partial">~</span></td><td><span class="v-miss">✗</span></td></tr>
+              </tbody>
+            </table>
+            <div class="pullquote">
+              <p>"She was stuck working with us if she wanted the program."</p>
+              <cite>— Former Reverba Employee</cite>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =============================================
+       FEATURE CARDS
+       ============================================= -->
+  <section class="section">
+    <div class="pp-wrap">
+      <div class="section__head">
+        <h2>Five Reasons Pharma Teams Switch to PatientPartner</h2>
+      </div>
+      <div class="feature-grid">
+        <div class="feat-card">
+          <div class="feat-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+          </div>
+          <h4>Real-Time, 1:1 Mentorship</h4>
+          <p>Connect patients when hesitation is highest — same day, not weeks later. No coordinator scheduling. No friction between approval and action.</p>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+          </div>
+          <h4>Enterprise Scalability</h4>
+          <p>Deploy across brands and disease states without rebuilding. One platform, repeatable configuration, no proportional headcount required.</p>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+          </div>
+          <h4>Automated Compliance</h4>
+          <p>KMS monitors every conversation for AEs, off-label mentions, and compliance triggers. Automated escalation. Full audit trail. HIPAA, SOC 2, ISO 27001 certified.</p>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+          </div>
+          <h4>Outcome Attribution</h4>
+          <p>Real-time dashboards tied to patient starts, adherence, and sentiment — not activity metrics and retrospective agency estimates.</p>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="13 17 18 12 13 7"></polyline><polyline points="6 17 11 12 6 7"></polyline></svg>
+          </div>
+          <h4>Speed to Value</h4>
+          <p>Programs go live in 6–8 weeks. Integration sprints. Built-in mentor training. Less rebuild, less coordination, less operational drag.</p>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+          </div>
+          <h4>White-Label Deployment</h4>
+          <p>Patients see your brand, your UI, your experience — powered by PatientPartner infrastructure. Deploy under any brand identity.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =============================================
+       TESTIMONIALS (with real CDN photos)
+       ============================================= -->
+  <section class="section section--alt">
+    <div class="pp-wrap">
+      <div class="section__head">
+        <h2>What Our Clients Say</h2>
+      </div>
+      <div class="testimonials">
+        <div class="tcard">
+          <div class="tcard__stars">
+            <svg viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+            <svg viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+            <svg viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+            <svg viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+            <svg viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          </div>
+          <div class="tcard__quote">"PatientPartner is a unicorn in the industry, setting a new standard with their clear dedication to the mission of positively impacting patients' lives through innovation and compassionate support."</div>
+          <div class="tcard__author">
+            <img class="tcard__avatar" src="https://cdn.prod.website-files.com/67ab8a022edd6044d96d2597/67e618867507e3b275b1410b_Ellipse%201078%20(2).png" alt="Melissa B." loading="lazy">
+            <div>
+              <div class="tcard__name">Melissa B.</div>
+              <div class="tcard__role">Sobi Pharmaceuticals</div>
+            </div>
+          </div>
+        </div>
+        <div class="tcard">
+          <div class="tcard__stars">
+            <svg viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+            <svg viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+            <svg viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+            <svg viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+            <svg viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          </div>
+          <div class="tcard__quote">"PatientPartner has been influential in helping patients understand the benefits of our product, providing them with personalized guidance and real-life experiences to support their decision-making."</div>
+          <div class="tcard__author">
+            <img class="tcard__avatar" src="https://cdn.prod.website-files.com/67ab8a022edd6044d96d2597/67e618725f56ba3079055984_Ellipse%201078%20(1).png" alt="Brad A." loading="lazy">
+            <div>
+              <div class="tcard__name">Brad A.</div>
+              <div class="tcard__role">Mainstay Medical</div>
+            </div>
+          </div>
+        </div>
+        <div class="tcard">
+          <div class="tcard__stars">
+            <svg viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+            <svg viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+            <svg viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+            <svg viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+            <svg viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          </div>
+          <div class="tcard__quote">"We knew patient trust was shifting, but seeing just how dramatically patients now prefer peer-to-peer engagement over traditional methods changes everything about our upcoming strategies."</div>
+          <div class="tcard__author">
+            <img class="tcard__avatar" src="https://cdn.prod.website-files.com/67ab8a022edd6044d96d2597/67e61808dfe971e2d59edd46_Ellipse%201078.png" alt="Sara W." loading="lazy">
+            <div>
+              <div class="tcard__name">Sara W.</div>
+              <div class="tcard__role">Marketing Director | Rare Disease</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =============================================
+       FAQ
+       ============================================= -->
+  <section class="section" id="faq">
+    <div class="pp-wrap">
+      <div class="section__head">
+        <h2>Frequently Asked Questions</h2>
+        <p>Answers to the questions pharma and med-tech leaders ask when evaluating PatientPartner.</p>
+      </div>
+      <div class="faq-list">
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">
+            <span>How does PatientPartner handle adverse events and compliance?</span>
+            <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          </button>
+          <div class="faq-a">
+            <p>PatientPartner's Keyword Monitoring System (KMS) automatically flags adverse event language, off-label discussions, and compliance triggers in every mentor conversation. Escalations route to your compliance team in real time. Every interaction is logged, auditable, and compliant with HIPAA, SOC 2, and ISO 27001. Unlike agency models that staff someone on every call, PatientPartner automates what competitors do manually.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">
+            <span>We already have an internal patient ambassador program. Why change?</span>
+            <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          </button>
+          <div class="faq-a">
+            <p>Internal programs scale with headcount, not with patient volume. When a brand manager leaves, the program wobbles. When you launch a new drug, you rebuild from scratch. PatientPartner is infrastructure: deployed once, repeatable across brands, with automated compliance and real-time reporting your team doesn't have to maintain manually.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">
+            <span>How is PatientPartner different from Snow Companies or Reverba?</span>
+            <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          </button>
+          <div class="faq-a">
+            <p>Snow and Reverba are agency models — they build programs for you, staffed by coordinators, reported through Excel. PatientPartner is a SaaS platform: you own the infrastructure, deploy across your portfolio, and get real-time data without operational overhead. Stories build belief. Mentorship changes behavior.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">
+            <span>What proof exists that peer mentorship actually drives results?</span>
+            <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          </button>
+          <div class="faq-a">
+            <p>PatientPartner has published case studies showing 68% increase in new patient starts, 71% of patients report mentorship as critical to their treatment decision, 90% patient confidence boost after mentor connection, and patients remaining on therapy an average of 133.5 days longer. These are measured outcomes from deployed programs, not modeled estimates.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">
+            <span>How long does implementation take?</span>
+            <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          </button>
+          <div class="faq-a">
+            <p>Most programs go live within 6–8 weeks. PatientPartner's Enterprise Integration Team runs on-site implementation sprints to minimize transition costs. Mentor sourcing and training are handled on the platform through the built-in LMS. MLR approval workflows are integrated into the onboarding process.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">
+            <span>What does PatientPartner cost compared to a Snow or Reverba SOW?</span>
+            <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          </button>
+          <div class="faq-a">
+            <p>Agency programs typically run $300K–$1.5M per brand per year as an annual Statement of Work. PatientPartner's subscription and engagement-based model is structured to deliver comparable or superior outcomes at meaningfully lower total cost, with less operational overhead for your team. Book a demo for program-specific pricing.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =============================================
+       FINAL CTA
+       ============================================= -->
+  <section class="section--dark final-cta">
+    <div class="pp-wrap">
+      <h2>Stop Rebuilding the Same Program Every Launch.</h2>
+      <p class="sub">PatientPartner deploys in weeks, runs across your entire brand portfolio, and proves ROI in real time. See it live.</p>
+      <div class="cta-row">
+        <a href="https://www.patientpartner.com/#" class="btn btn--teal btn--lg">Book a Demo</a>
+        <a href="https://www.patientpartner.com/2026-patient-support-benchmark-report" class="btn btn--ghost-white btn--lg">Get the Benchmark Report</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- =============================================
+       REAL WEBFLOW FOOTER (matches live site)
+       ============================================= -->
+  <footer class="pp-footer">
+    <div class="pp-wrap">
+      <div class="pp-footer__grid">
+        <div>
+          <div class="pp-footer__col-label">Solutions</div>
+          <div class="pp-footer__links">
+            <a href="https://www.patientpartner.com/ai-mentor">AI Mentor</a>
+            <a href="https://www.patientpartner.com/pharma-engagment-software">For Pharma</a>
+            <a href="https://www.patientpartner.com/med-device-engagement-software">For Med-Tech</a>
+            <a href="https://www.patientpartner.com/clinical-trial-engagement-software">For Clinical Trials</a>
+            <a href="https://www.patientpartner.com/marketing-service-page">Marketing</a>
+            <a href="https://www.patientpartner.com/patient-service-page">Patient Services</a>
+          </div>
+        </div>
+        <div>
+          <div class="pp-footer__col-label">Resources</div>
+          <div class="pp-footer__links">
+            <a href="https://www.patientpartner.com/resources">Resource Center</a>
+            <a href="https://www.patientpartner.com/blog-page">Blog</a>
+            <a href="https://www.patientpartner.com/patientpod">PatientPod</a>
+            <a href="https://www.patientpartner.com/compliance-overview">Compliance Overview</a>
+            <a href="https://www.patientpartner.com/faq">FAQs</a>
+          </div>
+        </div>
+        <div>
+          <div class="pp-footer__col-label">Company</div>
+          <div class="pp-footer__links">
+            <a href="https://www.patientpartner.com/about-us">About Us</a>
+            <a href="https://www.patientpartner.com/how-patientpartner-works">How It Works</a>
+            <a href="https://www.patientpartner.com/patientpartner-gives-back">How We Give Back</a>
+            <a href="https://www.patientpartner.com/careers">Careers</a>
+          </div>
+        </div>
+        <div>
+          <div class="pp-footer__col-label">Treatment Coverage</div>
+          <div class="pp-footer__links">
+            <a href="https://www.patientpartner.com/main-disease-state-page">All Disease States</a>
+            <a href="https://www.patientpartner.com/rare-disease/chronic">Chronic Conditions</a>
+            <a href="https://www.patientpartner.com/rare-disease/neurology">Neurology</a>
+            <a href="https://www.patientpartner.com/rare-disease/surgical-specialities">Surgical Specialties</a>
+            <a href="https://www.patientpartner.com/rare-disease/onkology">Oncology</a>
+            <a href="https://www.patientpartner.com/rare-disease/glp-1-therapies">GLP-1 Therapy Support</a>
+            <a href="https://www.patientpartner.com/rare-disease/rare-disease">Rare Diseases</a>
+          </div>
+        </div>
+      </div>
+      <div class="pp-footer__bottom">
+        <div>© 2026 rightdevice, Inc. dba PatientPartner. All rights reserved.</div>
+        <div class="pp-footer__legal">
+          <a href="https://patient.patientpartner.com/terms">Terms and Conditions</a>
+          <a href="https://patient.patientpartner.com/privacy">Privacy Policy</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- =============================================
+       JAVASCRIPT
+       ============================================= -->
+  <script>
+    // Tab switching
+    document.querySelectorAll('.tab-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var id = this.getAttribute('data-tab');
+        document.querySelectorAll('.tab-btn').forEach(function(b){ b.classList.remove('active'); });
+        document.querySelectorAll('.tab-panel').forEach(function(p){ p.classList.remove('active'); });
+        this.classList.add('active');
+        document.getElementById('tab-' + id).classList.add('active');
+      });
+    });
+
+    // Competitor nav selector
+    document.querySelectorAll('.comp-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('.comp-btn').forEach(function(b){ b.classList.remove('active'); });
+        this.classList.add('active');
+        var t = this.getAttribute('data-target');
+        var map = {
+          all: 'table', snow: 'deep-dive', reverba: 'deep-dive',
+          internal: 'deep-dive', ai: 'deep-dive'
+        };
+        var el = document.getElementById(map[t] || 'table');
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+
+    // FAQ accordion
+    document.querySelectorAll('.faq-q').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var item = this.parentElement;
+        var isOpen = item.classList.contains('open');
+        document.querySelectorAll('.faq-item').forEach(function(f){ f.classList.remove('open'); });
+        document.querySelectorAll('.faq-q').forEach(function(q){ q.setAttribute('aria-expanded','false'); });
+        if (!isOpen) { item.classList.add('open'); this.setAttribute('aria-expanded','true'); }
+      });
+    });
+  </script>
+
+</body>
+</html>

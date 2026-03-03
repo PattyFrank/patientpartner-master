@@ -1,0 +1,19 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# OS
+.DS_Store
+
+# Secrets
+.env
+.env.*
+*.local
+
+# Cursor
+.cursor/agent-transcripts/
+
+# IDE
+.idea/
+.vscode/
