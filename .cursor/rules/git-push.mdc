@@ -1,0 +1,47 @@
+# Git Push from Cursor
+
+**Repo:** https://github.com/PattyFrank/patientpartner-master
+
+## Why Agent Push Fails
+
+The Cursor agent runs commands in a non-interactive sandbox. `git push` requires GitHub credentials, which cannot be entered there. The agent can stage, commit, and configure remotes—but **you must run push yourself**.
+
+## How to Push from Cursor
+
+### Option 1: Cursor Source Control (recommended)
+
+1. **Open Source Control:** `Ctrl+Shift+G` (or `Cmd+Shift+G` on Mac)
+2. **Commit** any changes if needed (stage, write message, commit)
+3. **Push:** Click the `...` menu → **Push**, or click the sync icon if it shows push/pull
+
+Uses your system Git credentials. If prompted, enter GitHub username and a [Personal Access Token](https://github.com/settings/tokens) (not your password).
+
+### Option 2: Cursor Terminal
+
+1. **Open Terminal:** `` Ctrl+` `` (or View → Terminal)
+2. Run:
+   ```bash
+   cd ~/projects/patientpartner-master
+   git push origin main
+   ```
+3. Enter credentials if prompted (username + PAT)
+
+### Option 3: One-Time Auth Setup (no more prompts)
+
+**macOS Keychain:**
+```bash
+git config --global credential.helper osxkeychain
+```
+Then run `git push` once from Cursor's Terminal—enter your GitHub username and a PAT when prompted. Future pushes will use stored credentials.
+
+**SSH (no prompts):**
+```bash
+# 1. Generate key if needed: ssh-keygen -t ed25519 -C "your_email@example.com"
+# 2. Add to GitHub: https://github.com/settings/keys
+git remote set-url origin git@github.com:PattyFrank/patientpartner-master.git
+git push origin main
+```
+
+## After Agent Makes Changes
+
+When the agent commits changes, run push via Source Control or Terminal. The agent cannot complete the push for you.

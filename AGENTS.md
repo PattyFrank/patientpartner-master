@@ -45,3 +45,14 @@ cd ~/projects/patientpartner-master
 ```
 
 Requires: `pip install pymupdf4llm` (already in .venv)
+
+---
+
+## Pushing to GitHub
+
+The agent **cannot** run `git push` (no interactive credentials). After the agent commits:
+
+- **Source Control:** `Ctrl+Shift+G` → `...` → Push
+- **Terminal:** `` Ctrl+` `` → `git push origin main`
+
+See `.cursor/rules/git-push.mdc` for auth setup and options.
