@@ -97,4 +97,3 @@ cd ~/Desktop/skills-v2
 ```
 
 This installs Vibe Marketing Skills to `~/.claude/skills/` for Claude Code and Cursor.
-test
