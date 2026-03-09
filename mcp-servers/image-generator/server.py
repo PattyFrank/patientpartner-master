@@ -174,6 +174,15 @@ NEGATIVE_PROMPT = (
 )
 
 
+def _has_overlap(scene_lower: str, template: str, threshold: int = 2) -> bool:
+    """Check if enough words from the template already appear in the scene."""
+    keywords = [w for w in template.lower().split() if len(w) > 3]
+    if not keywords:
+        return False
+    hits = sum(1 for w in keywords if w in scene_lower)
+    return hits >= threshold
+
+
 def build_prompt(
     scene: str,
     subject_type: str | None = None,
@@ -183,30 +192,43 @@ def build_prompt(
 ) -> str:
     """
     Build a photorealistic portrait prompt.
-    Structure: [who they are] [what they're doing / scene] [where] [expression] [photo tech]
+
+    The user's scene description ALWAYS leads. Template data is only added
+    when it provides genuinely new visual information not already in the scene.
+    This prevents duplication like "leaning in ... leaning in" or
+    "a warm person in their 50s ... a Latino man in his 60s".
+
+    Structure: [scene] [+ subject if new] [+ setting if new] [+ expression if new] [photo tech]
     """
+    scene_lower = scene.lower()
     parts: list[str] = []
 
-    # 1. Who: subject physical presence
-    if subject_type and subject_type in SUBJECT_LOOKS:
-        parts.append(SUBJECT_LOOKS[subject_type])
-
-    # 2. What: the user's scene description (most specific, most important)
+    # 1. User's scene description — always first, always included
     parts.append(scene)
 
-    # 3. Where: environment
-    if scene_setting and scene_setting in SETTING_LOOKS:
-        parts.append(SETTING_LOOKS[scene_setting])
+    # 2. Subject template — only if it adds info the scene doesn't already cover
+    if subject_type and subject_type in SUBJECT_LOOKS:
+        template = SUBJECT_LOOKS[subject_type]
+        if not _has_overlap(scene_lower, template):
+            parts.append(template)
 
-    # 4. How they look: visible expression
+    # 3. Setting — only if scene doesn't already describe the environment
+    if scene_setting and scene_setting in SETTING_LOOKS:
+        template = SETTING_LOOKS[scene_setting]
+        if not _has_overlap(scene_lower, template):
+            parts.append(template)
+
+    # 4. Expression — only if scene doesn't already describe the face/body
     if emotion and emotion in EXPRESSION_LOOKS:
-        parts.append(EXPRESSION_LOOKS[emotion])
+        template = EXPRESSION_LOOKS[emotion]
+        if not _has_overlap(scene_lower, template):
+            parts.append(template)
 
     # 5. Extra details from user
     if additional_details:
         parts.append(additional_details)
 
-    # 6. Photography quality anchor
+    # 6. Photography quality anchor — always included
     parts.append(PHOTO_QUALITY)
 
     return ", ".join(parts)
