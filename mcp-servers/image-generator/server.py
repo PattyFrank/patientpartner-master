@@ -42,16 +42,20 @@ HF_TOKEN            = os.getenv("HF_TOKEN", "")
 HF_SPACE_ID         = os.getenv("HF_SPACE_ID", "")
 REPLICATE_API_TOKEN = os.getenv("REPLICATE_API_TOKEN", "")
 
+# Build ordered list of available backends (tried in this order)
+AVAILABLE_BACKENDS: list[str] = []
 if GOOGLE_API_KEY:
-    BACKEND = "google_gemini"
-elif HF_TOKEN:
-    BACKEND = "hf_inference"
-elif HF_SPACE_ID:
-    BACKEND = "hf_space"
-elif REPLICATE_API_TOKEN:
-    BACKEND = "replicate"
-else:
-    BACKEND = "prompt_only"
+    AVAILABLE_BACKENDS.append("google_gemini")
+if HF_TOKEN:
+    AVAILABLE_BACKENDS.append("hf_inference")
+if HF_SPACE_ID:
+    AVAILABLE_BACKENDS.append("hf_space")
+if REPLICATE_API_TOKEN:
+    AVAILABLE_BACKENDS.append("replicate")
+if not AVAILABLE_BACKENDS:
+    AVAILABLE_BACKENDS.append("prompt_only")
+
+BACKEND = AVAILABLE_BACKENDS[0]  # primary, for display
 
 OUTPUT_DIR = Path(os.getenv(
     "IMAGE_OUTPUT_DIR",
@@ -430,10 +434,11 @@ async def _generate(
         additional_details=additional_details,
     )
 
-    logger.info(f"[{BACKEND}] {ar} {width}×{height} — {prompt[:120]}...")
+    logger.info(f"Backends available: {AVAILABLE_BACKENDS}")
+    logger.info(f"{ar} {width}×{height} — {prompt[:120]}...")
 
     # ── Prompt-only ──
-    if BACKEND == "prompt_only":
+    if AVAILABLE_BACKENDS == ["prompt_only"]:
         return [TextContent(type="text", text=json.dumps({
             "status": "prompt_only",
             "message": "No API keys set. Add GOOGLE_API_KEY or HF_TOKEN to .env to generate images.",
@@ -442,76 +447,84 @@ async def _generate(
             "settings": {"aspect_ratio": ar, "width": width, "height": height},
         }, indent=2))]
 
-    # ── Google Gemini ──
-    if BACKEND == "google_gemini":
-        image_bytes = await _gemini_generate(prompt)
-        result = {
-            "status": "success",
-            "backend": "google_gemini",
-            "model": "gemini-2.0-flash-exp",
-            "prompt": prompt,
-            "settings": {"aspect_ratio": ar, "width": width, "height": height},
-        }
-        if save_locally:
-            fname = _filename(asset_type, descriptor, ar, output_format)
-            result["local_path"] = save_image_bytes(image_bytes, fname)
-            result["filename"] = fname
-        else:
-            result["image_base64"] = base64.b64encode(image_bytes).decode()
-        return [TextContent(type="text", text=json.dumps(result, indent=2))]
+    # ── Try each backend in order, fallback on failure ──
+    errors: list[str] = []
 
-    # ── HF Inference (FLUX.1-schnell) ──
-    if BACKEND == "hf_inference":
-        image_bytes = await _hf_generate(prompt, width, height)
-        result = {
-            "status": "success",
-            "backend": "hf_inference",
-            "model": "FLUX.1-schnell",
-            "prompt": prompt,
-            "settings": {"aspect_ratio": ar, "width": width, "height": height},
-        }
-        if save_locally:
-            fname = _filename(asset_type, descriptor, ar, output_format)
-            result["local_path"] = save_image_bytes(image_bytes, fname)
-            result["filename"] = fname
-        else:
-            result["image_base64"] = base64.b64encode(image_bytes).decode()
-        return [TextContent(type="text", text=json.dumps(result, indent=2))]
+    for backend in AVAILABLE_BACKENDS:
+        if backend == "prompt_only":
+            continue
 
-    # ── HF Space ──
-    if BACKEND == "hf_space":
-        hf = await _hf_space_generate(scene, subject_type, emotion, scene_setting, width, height)
-        result = {
-            "status": "success",
-            "backend": "hf_space",
-            "model": hf["model"],
-            "image_url": hf["image_url"],
-            "prompt": prompt,
-            "settings": {"aspect_ratio": ar, "width": width, "height": height},
-        }
-        if save_locally and hf.get("image_url"):
-            fname = _filename(asset_type, descriptor, ar, output_format)
-            result["local_path"] = await download_image(hf["image_url"], fname)
-            result["filename"] = fname
-        return [TextContent(type="text", text=json.dumps(result, indent=2))]
+        logger.info(f"Trying backend: {backend}")
+        try:
+            image_bytes: bytes | None = None
+            image_url: str | None = None
+            model_name = backend
+            extra: dict[str, Any] = {}
 
-    # ── Replicate (FLUX.1-dev) ──
-    rep = await _replicate_generate(prompt, ar, output_format)
-    result = {
-        "status": "success",
-        "backend": "replicate",
-        "model": rep["model"],
-        "image_url": rep["image_url"],
-        "prediction_id": rep["prediction_id"],
+            if backend == "google_gemini":
+                image_bytes = await _gemini_generate(prompt)
+                model_name = "gemini-2.0-flash-exp"
+
+            elif backend == "hf_inference":
+                image_bytes = await _hf_generate(prompt, width, height)
+                model_name = "FLUX.1-schnell"
+
+            elif backend == "hf_space":
+                hf = await _hf_space_generate(scene, subject_type, emotion, scene_setting, width, height)
+                image_url = hf.get("image_url", "")
+                model_name = hf.get("model", f"hf-space:{HF_SPACE_ID}")
+
+            elif backend == "replicate":
+                rep = await _replicate_generate(prompt, ar, output_format)
+                image_url = rep.get("image_url", "")
+                model_name = rep.get("model", REPLICATE_MODEL)
+                extra["prediction_id"] = rep.get("prediction_id")
+
+            # Build result
+            result: dict[str, Any] = {
+                "status": "success",
+                "backend": backend,
+                "model": model_name,
+                "prompt": prompt,
+                "negative_prompt": NEGATIVE_PROMPT,
+                "settings": {"aspect_ratio": ar, "width": width, "height": height},
+            }
+            result.update({k: v for k, v in extra.items() if v})
+
+            if image_bytes and save_locally:
+                fname = _filename(asset_type, descriptor, ar, output_format)
+                result["local_path"] = save_image_bytes(image_bytes, fname)
+                result["filename"] = fname
+            elif image_bytes:
+                result["image_base64"] = base64.b64encode(image_bytes).decode()
+            elif image_url:
+                result["image_url"] = image_url
+                if save_locally:
+                    fname = _filename(asset_type, descriptor, ar, output_format)
+                    result["local_path"] = await download_image(image_url, fname)
+                    result["filename"] = fname
+
+            if errors:
+                result["fallback_note"] = f"Fell through {len(errors)} backend(s): {', '.join(errors)}"
+
+            logger.info(f"Success with {backend}")
+            return [TextContent(type="text", text=json.dumps(result, indent=2))]
+
+        except Exception as e:
+            err_msg = f"{backend}: {e}"
+            logger.warning(f"Backend failed — {err_msg}")
+            errors.append(err_msg)
+            continue
+
+    # All backends failed — return prompt + errors so user can debug
+    return [TextContent(type="text", text=json.dumps({
+        "status": "all_backends_failed",
+        "errors": errors,
+        "message": "All image backends failed. The prompt is still valid — try running locally.",
         "prompt": prompt,
         "negative_prompt": NEGATIVE_PROMPT,
-        "settings": {"aspect_ratio": ar, "output_format": output_format},
-    }
-    if save_locally:
-        fname = _filename(asset_type, descriptor, ar, output_format)
-        result["local_path"] = await download_image(rep["image_url"], fname)
-        result["filename"] = fname
-    return [TextContent(type="text", text=json.dumps(result, indent=2))]
+        "settings": {"aspect_ratio": ar, "width": width, "height": height},
+    }, indent=2))]
 
 
 # ---------------------------------------------------------------------------
@@ -528,13 +541,14 @@ PLATFORM_TO_PRESET = {
     "twitter":         "hero",
 }
 
-_backend_label = {
-    "google_gemini": "Gemini 2.0 Flash (free)",
-    "hf_inference":  "FLUX.1-schnell via HF Inference (free)",
-    "hf_space":      f"HF Space: {HF_SPACE_ID} (free)",
-    "replicate":     "FLUX.1-dev via Replicate (paid)",
-    "prompt_only":   "prompt-only — set GOOGLE_API_KEY or HF_TOKEN to generate images",
-}[BACKEND]
+_BACKEND_NAMES = {
+    "google_gemini": "Gemini 2.0 Flash",
+    "hf_inference":  "FLUX.1-schnell (HF)",
+    "hf_space":      f"HF Space: {HF_SPACE_ID}",
+    "replicate":     "FLUX.1-dev (Replicate)",
+    "prompt_only":   "prompt-only",
+}
+_backend_label = " → ".join(_BACKEND_NAMES.get(b, b) for b in AVAILABLE_BACKENDS)
 
 
 @server.list_tools()
