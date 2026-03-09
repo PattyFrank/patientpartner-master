@@ -392,10 +392,11 @@ async def _hf_space_generate(scene: str, subject_type: str | None, emotion: str 
 REPLICATE_MODEL = "google/nano-banana-2"
 REPLICATE_BASE  = "https://api.replicate.com/v1"
 
-# Map our aspect ratios to Nano Banana 2 supported values
+# Nano Banana 2 supported aspect ratios
 _NB2_ASPECT_RATIOS = {
-    "1:1", "2:3", "3:2", "3:4", "4:3", "4:5", "5:4", "9:16", "16:9", "21:9",
-    "1:4", "4:1", "1:8", "8:1",
+    "auto", "1:1", "2:3", "3:2", "3:4", "4:3", "4:5", "5:4",
+    "9:16", "16:9", "21:9", "1:4", "4:1", "1:8", "8:1",
+    "match_input_image",
 }
 
 
@@ -414,6 +415,8 @@ async def _replicate_generate(prompt: str, aspect_ratio: str, output_format: str
             "aspect_ratio": ar,
             "output_format": fmt,
             "resolution": "2K",
+            "num_images": 1,
+            "safety_tolerance": "4",
         }
     }
 
