@@ -1,10 +1,64 @@
-# PatientPartner Custom Replicate Model — Implementation Plan
+# PatientPartner Custom Image Model — Implementation Plan
 
 ## Goal
 
-Build and deploy a custom image generation model on Replicate, fine-tuned for
+Build and deploy a custom image generation model, fine-tuned for
 PatientPartner's healthcare photography needs. The model connects to the
 existing NanoBanana MCP server for seamless generation from Claude Code.
+
+**Two deployment options (both implemented):**
+- **Free:** Hugging Face Spaces + ZeroGPU (FLUX.1-dev + LoRA) — `hf-space/`
+- **Paid:** Replicate Cog wrapper (NanoBanana2 / Imagen 4) — `replicate-model/`
+
+---
+
+## Free Path: Hugging Face Spaces + ZeroGPU (IMPLEMENTED)
+
+### What's built
+
+```
+hf-space/
+├── app.py              # Gradio app with FLUX.1-dev + brand prompt enhancement
+├── requirements.txt    # Python dependencies
+└── README.md           # HF Space metadata + deploy instructions
+```
+
+### How to deploy (free, ~5 minutes)
+
+1. Go to [huggingface.co/new-space](https://huggingface.co/new-space)
+2. Create a new Space:
+   - **Name:** `healthcare-photos`
+   - **SDK:** Gradio
+   - **Hardware:** ZeroGPU (free)
+3. Upload the 3 files from `hf-space/`
+4. Set environment variables in Space settings:
+   - `HF_TOKEN` — your HF token (required for gated FLUX model)
+   - `LORA_REPO` — your LoRA weights repo (optional, for fine-tune)
+   - `LORA_TRIGGER_WORD` — trigger word, e.g. `PTPTNR` (optional)
+5. The Space auto-builds and starts serving
+
+### Connect to NanoBanana MCP
+
+Add to your `.env`:
+```
+HF_SPACE_ID=your-username/healthcare-photos
+HF_TOKEN=hf_your_token
+```
+
+The MCP server auto-detects `HF_SPACE_ID` and routes to the free backend.
+
+### Cost: $0
+
+- ZeroGPU: Free H200 GPU (Nvidia, 70GB VRAM)
+- Quota: ~300s/day (free), ~1500s/day (HF Pro at $9/mo)
+- Each image takes ~30-60s → roughly 5-10 free images/day
+
+---
+
+## Paid Path: Replicate (ORIGINAL PLAN)
+
+Below is the original Replicate-based plan for when you need higher volume
+or want a dedicated production deployment.
 
 ---
 

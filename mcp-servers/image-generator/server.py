@@ -1,12 +1,19 @@
 """
 PatientPartner Image Generator MCP Server
 
-Generates photorealistic images of people for PatientPartner.com using
-NanoBanana2 (Google Gemini 3.1 Flash Image) via the Replicate API.
+Generates photorealistic images of people for PatientPartner.com.
+
+Supports two backends:
+  1. HF Space (free) — FLUX.1-dev on ZeroGPU via Gradio API
+  2. Replicate (paid) — NanoBanana2 / Imagen 4 via Replicate API
+
+Backend selection:
+  - Set HF_SPACE_ID to use the free HF Space backend (e.g. "patientpartner/healthcare-photos")
+  - Set REPLICATE_API_TOKEN to use the Replicate backend
+  - If both are set, HF Space is preferred (free first)
 
 Usage:
     python server.py                    # stdio transport (default for Claude Code)
-    python server.py --port 8080        # SSE transport on port 8080
 """
 
 import asyncio
@@ -34,10 +41,17 @@ from mcp.types import (
 
 load_dotenv()
 
+# Backend: HF Space (free) or Replicate (paid)
+HF_SPACE_ID = os.getenv("HF_SPACE_ID", "")  # e.g. "patientpartner/healthcare-photos"
+HF_TOKEN = os.getenv("HF_TOKEN", "")
+
 REPLICATE_API_TOKEN = os.getenv("REPLICATE_API_TOKEN", "")
 MODEL_ID = "google/nano-banana-2"
 FALLBACK_MODEL_ID = "google/nano-banana-pro"
 REPLICATE_BASE = "https://api.replicate.com/v1"
+
+# Determine active backend
+BACKEND = "hf_space" if HF_SPACE_ID else ("replicate" if REPLICATE_API_TOKEN else "prompt_only")
 
 OUTPUT_DIR = Path(os.getenv(
     "IMAGE_OUTPUT_DIR",
@@ -306,6 +320,97 @@ def _generate_filename(
     ratio_str = aspect_ratio.replace(":", "x")
     timestamp = datetime.now().strftime("%Y%m%d-%H%M%S")
     return f"{asset_type}-{descriptor}-{ratio_str}-{timestamp}.{fmt}"
+
+
+# ---------------------------------------------------------------------------
+# HF Space backend (free)
+# ---------------------------------------------------------------------------
+
+# Preset name mapping: MCP preset → HF Space dropdown value
+HF_PRESET_MAP = {
+    "social_square": "social_square (1080x1080)",
+    "social_portrait": "social_portrait (1080x1350)",
+    "social_story": "social_story (1080x1920)",
+    "hero": "hero (1920x1080)",
+    "blog": "blog (1200x800)",
+    "blog_wide": "hero (1920x1080)",  # closest match
+}
+
+
+async def generate_via_hf_space(
+    scene: str,
+    subject_type: str | None = None,
+    emotion: str | None = None,
+    scene_setting: str | None = None,
+    preset: str | None = None,
+    guidance_scale: float = 3.5,
+    num_steps: int = 28,
+    seed: int = -1,
+) -> dict[str, Any]:
+    """Generate an image via the free HF Space Gradio API."""
+    hf_preset = HF_PRESET_MAP.get(preset or "blog", "blog (1200x800)")
+
+    # Build the Gradio API request
+    # The HF Space exposes /generate with positional args matching the Gradio UI
+    api_url = f"https://{HF_SPACE_ID.replace('/', '-')}.hf.space/api/predict"
+
+    payload = {
+        "fn_index": 0,
+        "data": [
+            scene,
+            subject_type or "none",
+            emotion or "none",
+            scene_setting or "none",
+            hf_preset,
+            guidance_scale,
+            num_steps,
+            seed,
+        ],
+    }
+
+    headers: dict[str, str] = {"Content-Type": "application/json"}
+    if HF_TOKEN:
+        headers["Authorization"] = f"Bearer {HF_TOKEN}"
+
+    async with httpx.AsyncClient(timeout=300) as client:
+        # Gradio SSE/queue pattern: join queue, then poll
+        # Try the simple /call endpoint first (Gradio 4+)
+        call_url = f"https://{HF_SPACE_ID.replace('/', '-')}.hf.space/call/generate"
+        resp = await client.post(call_url, headers=headers, json={
+            "data": payload["data"],
+        })
+
+        if resp.status_code != 200:
+            raise RuntimeError(
+                f"HF Space API error {resp.status_code}: {resp.text}"
+            )
+
+        event_id = resp.json().get("event_id")
+        if not event_id:
+            raise RuntimeError("HF Space did not return an event_id")
+
+        # Poll for result
+        result_url = f"https://{HF_SPACE_ID.replace('/', '-')}.hf.space/call/generate/{event_id}"
+        for _ in range(120):  # up to 10 minutes
+            await asyncio.sleep(5)
+            result_resp = await client.get(result_url, headers=headers)
+            if result_resp.status_code == 200:
+                text = result_resp.text
+                # Parse SSE-style response
+                for line in text.strip().split("\n"):
+                    if line.startswith("data:"):
+                        data = json.loads(line[5:].strip())
+                        return {
+                            "image_url": data[0].get("url", "") if isinstance(data[0], dict) else data[0],
+                            "prompt_used": data[1] if len(data) > 1 else "",
+                            "model_used": f"hf-space:{HF_SPACE_ID}",
+                            "backend": "hf_space",
+                        }
+                # If "complete" event found without data
+                if "event: complete" in text:
+                    raise RuntimeError("HF Space returned complete but no image data")
+
+        raise RuntimeError("HF Space generation timed out")
 
 
 # ---------------------------------------------------------------------------
@@ -617,20 +722,19 @@ async def _do_generate(
         additional_details=additional_details,
     )
 
-    logger.info(f"Generating image: {ar} {output_format}")
+    logger.info(f"Backend: {BACKEND} | Generating image: {ar} {output_format}")
     logger.info(f"Enhanced prompt: {full_prompt[:200]}...")
 
-    # Check for API token
-    if not REPLICATE_API_TOKEN:
-        # Prompt-only mode
+    # ----- Backend: Prompt-only mode -----
+    if BACKEND == "prompt_only":
         return [
             TextContent(
                 type="text",
                 text=json.dumps({
                     "status": "prompt_only",
                     "message": (
-                        "No REPLICATE_API_TOKEN set. Running in prompt-only mode. "
-                        "Set the token in .env to enable live generation."
+                        "No HF_SPACE_ID or REPLICATE_API_TOKEN set. "
+                        "Running in prompt-only mode. Set either in .env to enable live generation."
                     ),
                     "prompt": full_prompt,
                     "model": MODEL_ID,
@@ -651,7 +755,47 @@ async def _do_generate(
             )
         ]
 
-    # Create prediction
+    # ----- Backend: HF Space (free) -----
+    if BACKEND == "hf_space":
+        logger.info(f"Using HF Space: {HF_SPACE_ID}")
+        hf_result = await generate_via_hf_space(
+            scene=scene,
+            subject_type=subject_type,
+            emotion=emotion,
+            scene_setting=scene_setting,
+            preset=preset or "blog",
+        )
+
+        image_url = hf_result["image_url"]
+        response: dict[str, Any] = {
+            "status": "success",
+            "backend": "hf_space (free)",
+            "image_url": image_url,
+            "model_used": hf_result.get("model_used", f"hf-space:{HF_SPACE_ID}"),
+            "settings": {
+                "aspect_ratio": ar,
+                "output_format": output_format,
+                "preset": preset,
+            },
+            "prompt_used": hf_result.get("prompt_used", full_prompt),
+        }
+
+        if save_locally and image_url:
+            filename = _generate_filename(asset_type, descriptor, ar, output_format)
+            try:
+                local_path = await download_image(image_url, filename)
+                response["local_path"] = local_path
+                response["filename"] = filename
+                logger.info(f"Image saved: {local_path}")
+            except Exception as e:
+                response["download_error"] = str(e)
+                logger.warning(f"Failed to save locally: {e}")
+
+        return [
+            TextContent(type="text", text=json.dumps(response, indent=2))
+        ]
+
+    # ----- Backend: Replicate (paid) -----
     prediction = await create_prediction(
         prompt=full_prompt,
         aspect_ratio=ar,
@@ -683,8 +827,9 @@ async def _do_generate(
     # Handle output (can be a string URL or list of URLs)
     image_url = output if isinstance(output, str) else output[0]
 
-    response: dict[str, Any] = {
+    response = {
         "status": "success",
+        "backend": "replicate (paid)",
         "image_url": image_url,
         "model_used": model_used,
         "prediction_id": prediction_id,

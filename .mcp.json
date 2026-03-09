@@ -4,6 +4,8 @@
       "command": "python",
       "args": ["mcp-servers/image-generator/server.py"],
       "env": {
+        "HF_SPACE_ID": "${HF_SPACE_ID}",
+        "HF_TOKEN": "${HF_TOKEN}",
         "REPLICATE_API_TOKEN": "${REPLICATE_API_TOKEN}"
       }
     }
