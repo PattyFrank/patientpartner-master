@@ -1,12 +1,12 @@
 {
   "mcpServers": {
-    "image-generator": {
+    "patientpartner-image-generator": {
       "command": "python",
-      "args": ["mcp-servers/image-generator/server.py"],
+      "args": ["/home/user/patientpartner-master/mcp-servers/image-generator/server.py"],
       "env": {
-        "HF_SPACE_ID": "${HF_SPACE_ID}",
         "HF_TOKEN": "${HF_TOKEN}",
-        "REPLICATE_API_TOKEN": "${REPLICATE_API_TOKEN}"
+        "REPLICATE_API_TOKEN": "${REPLICATE_API_TOKEN}",
+        "IMAGE_OUTPUT_DIR": "/home/user/patientpartner-master/creative-output/generated-images"
       }
     }
   }
