@@ -5,13 +5,14 @@ Generates photorealistic healthcare photography for PatientPartner.com.
 Brand-aware prompt enhancement + multi-backend image generation.
 
 Backends (in priority order):
-  1. HF Inference API (free) — FLUX.1-schnell via huggingface.co API
-  2. HF Space (free)         — Custom Gradio Space with LoRA support
-  3. Replicate (paid)        — NanoBanana2 / Imagen 4
-  4. Prompt-only (fallback)  — Returns enhanced prompt, no image
+  1. Google Gemini (free)    — Gemini 2.0 Flash image gen via generativelanguage.googleapis.com
+  2. HF Inference API (free) — FLUX.1-schnell via huggingface.co API
+  3. HF Space (free)         — Custom Gradio Space with LoRA support
+  4. Replicate (paid)        — NanoBanana2 / Imagen 4
+  5. Prompt-only (fallback)  — Returns enhanced prompt, no image
 
 Setup (free path — only needs one env var):
-    HF_TOKEN=hf_your_token_here
+    GOOGLE_API_KEY=your_key   # get free at aistudio.google.com
 
 Usage:
     python server.py   # stdio transport for Claude Code
@@ -42,12 +43,15 @@ from mcp.types import (
 
 load_dotenv()
 
+GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY", "")
 HF_TOKEN = os.getenv("HF_TOKEN", "")
-HF_SPACE_ID = os.getenv("HF_SPACE_ID", "")  # optional custom Space
+HF_SPACE_ID = os.getenv("HF_SPACE_ID", "")
 REPLICATE_API_TOKEN = os.getenv("REPLICATE_API_TOKEN", "")
 
-# Determine active backend
-if HF_TOKEN:
+# Determine active backend (priority order)
+if GOOGLE_API_KEY:
+    BACKEND = "google_gemini"
+elif HF_TOKEN:
     BACKEND = "hf_inference"
 elif HF_SPACE_ID:
     BACKEND = "hf_space"
@@ -249,7 +253,50 @@ def _generate_filename(
 
 
 # ---------------------------------------------------------------------------
-# Backend 1: HF Inference API (free — just needs HF_TOKEN)
+# Backend 1: Google Gemini image generation (free — works in all environments)
+# Uses generativelanguage.googleapis.com — accessible from any network
+# ---------------------------------------------------------------------------
+
+GEMINI_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent"
+
+
+async def generate_via_google_gemini(prompt: str) -> bytes:
+    """Generate image via Gemini 2.0 Flash. Returns raw image bytes."""
+    payload = {
+        "contents": [
+            {"parts": [{"text": prompt}]}
+        ],
+        "generationConfig": {
+            "responseModalities": ["IMAGE", "TEXT"],
+        },
+    }
+
+    async with httpx.AsyncClient(timeout=120) as client:
+        resp = await client.post(
+            f"{GEMINI_URL}?key={GOOGLE_API_KEY}",
+            json=payload,
+        )
+
+        if resp.status_code != 200:
+            raise RuntimeError(
+                f"Google Gemini API error {resp.status_code}: {resp.text[:500]}"
+            )
+
+        data = resp.json()
+        parts = data.get("candidates", [{}])[0].get("content", {}).get("parts", [])
+        for part in parts:
+            if "inlineData" in part:
+                mime = part["inlineData"].get("mimeType", "image/png")
+                img_bytes = base64.b64decode(part["inlineData"]["data"])
+                return img_bytes
+
+        raise RuntimeError(
+            f"Gemini returned no image. Parts: {[list(p.keys()) for p in parts]}"
+        )
+
+
+# ---------------------------------------------------------------------------
+# Backend 2: HF Inference API (free — just needs HF_TOKEN)
 # ---------------------------------------------------------------------------
 
 HF_INFERENCE_URL = "https://api-inference.huggingface.co/models/black-forest-labs/FLUX.1-schnell"
@@ -503,6 +550,33 @@ async def _do_generate(
     logger.info(f"Backend: {BACKEND} | {ar} {width}x{height} {output_format}")
     logger.info(f"Prompt: {full_prompt[:200]}...")
 
+    # ── Google Gemini (primary — works everywhere googleapis.com is reachable) ──
+    if BACKEND == "google_gemini":
+        logger.info("Generating via Google Gemini 2.0 Flash...")
+        image_bytes = await generate_via_google_gemini(full_prompt)
+
+        response: dict[str, Any] = {
+            "status": "success",
+            "backend": "google_gemini (free)",
+            "model": "gemini-2.0-flash-exp",
+            "prompt_used": full_prompt,
+            "settings": {"aspect_ratio": ar, "width": width, "height": height},
+        }
+
+        if save_locally:
+            filename = _generate_filename(asset_type, descriptor, ar, output_format)
+            try:
+                local_path = save_image_bytes(image_bytes, filename)
+                response["local_path"] = local_path
+                response["filename"] = filename
+                logger.info(f"Saved: {local_path}")
+            except Exception as e:
+                response["save_error"] = str(e)
+        else:
+            response["image_base64"] = base64.b64encode(image_bytes).decode()
+
+        return [TextContent(type="text", text=json.dumps(response, indent=2))]
+
     # ── Prompt-only fallback ──
     if BACKEND == "prompt_only":
         return [TextContent(type="text", text=json.dumps({
@@ -623,10 +697,11 @@ async def list_tools() -> list[Tool]:
     """List available image generation tools."""
 
     backend_note = {
+        "google_gemini": "Using Gemini 2.0 Flash image generation (free)",
         "hf_inference": "Using FLUX.1-schnell via HF Inference API (free)",
         "hf_space": f"Using custom HF Space: {HF_SPACE_ID} (free)",
         "replicate": "Using NanoBanana2 via Replicate (paid)",
-        "prompt_only": "No backend — returns enhanced prompts only. Set HF_TOKEN to enable.",
+        "prompt_only": "No backend configured. Set GOOGLE_API_KEY (free at aistudio.google.com).",
     }[BACKEND]
 
     return [

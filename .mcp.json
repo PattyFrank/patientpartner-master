@@ -4,6 +4,7 @@
       "command": "python",
       "args": ["/home/user/patientpartner-master/mcp-servers/image-generator/server.py"],
       "env": {
+        "GOOGLE_API_KEY": "${GOOGLE_API_KEY}",
         "HF_TOKEN": "${HF_TOKEN}",
         "REPLICATE_API_TOKEN": "${REPLICATE_API_TOKEN}",
         "IMAGE_OUTPUT_DIR": "/home/user/patientpartner-master/creative-output/generated-images"
