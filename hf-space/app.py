@@ -138,7 +138,7 @@ LORA_FILENAME = os.getenv("LORA_FILENAME", "pytorch_lora_weights.safetensors")
 
 print("Loading FLUX.1-dev pipeline...")
 pipe = FluxPipeline.from_pretrained(
-    "black-forest-labs/FLUX.1-dev",
+    "black-forest-labs/FLUX.1-schnell",
     torch_dtype=torch.bfloat16,
     token=HF_TOKEN,
 )
@@ -157,7 +157,7 @@ else:
 # Generation function
 # ---------------------------------------------------------------------------
 
-@spaces.GPU(duration=120)
+@spaces.GPU(duration=30)
 def generate(
     scene: str,
     subject_type: str,
@@ -201,7 +201,7 @@ with gr.Blocks(title="PatientPartner Image Generator") as demo:
     gr.Markdown(
         "# PatientPartner Healthcare Photo Generator\n"
         "Generate photorealistic healthcare photography with brand-aware prompt enhancement.\n"
-        "Powered by FLUX.1-dev on free ZeroGPU."
+        "Powered by FLUX.1-schnell on free ZeroGPU. ~4 steps, ~5-10s per image."
     )
 
     with gr.Row():
@@ -235,11 +235,11 @@ with gr.Blocks(title="PatientPartner Image Generator") as demo:
             with gr.Accordion("Advanced", open=False):
                 guidance = gr.Slider(
                     label="Guidance Scale",
-                    minimum=1.0, maximum=10.0, value=3.5, step=0.5,
+                    minimum=0.0, maximum=10.0, value=0.0, step=0.5,
                 )
                 steps = gr.Slider(
                     label="Inference Steps",
-                    minimum=10, maximum=50, value=28, step=1,
+                    minimum=1, maximum=12, value=4, step=1,
                 )
                 seed_input = gr.Number(
                     label="Seed (-1 for random)",
@@ -264,10 +264,10 @@ with gr.Blocks(title="PatientPartner Image Generator") as demo:
     # Examples
     gr.Examples(
         examples=[
-            ["A woman in her 40s, warm natural smile, experienced mentor", "mentor", "supportive", "consultation", "blog (1200x800)", 3.5, 28, -1],
-            ["A diverse group of patients sharing their healthcare journeys", "group", "connected", "support_group", "hero (1920x1080)", 3.5, 28, -1],
-            ["A young man looking hopeful after receiving good news from his doctor", "patient", "hopeful", "hospital", "social_square (1080x1080)", 3.5, 28, -1],
-            ["An older couple, one supporting the other through recovery", "caregiver", "grateful", "home", "blog (1200x800)", 3.5, 28, -1],
+            ["A woman in her 40s, warm natural smile, experienced mentor", "mentor", "supportive", "consultation", "blog (1200x800)", 0.0, 4, -1],
+            ["A diverse group of patients sharing their healthcare journeys", "group", "connected", "support_group", "hero (1920x1080)", 0.0, 4, -1],
+            ["A young man looking hopeful after receiving good news from his doctor", "patient", "hopeful", "hospital", "social_square (1080x1080)", 0.0, 4, -1],
+            ["An older couple, one supporting the other through recovery", "caregiver", "grateful", "home", "blog (1200x800)", 0.0, 4, -1],
         ],
         inputs=[
             scene_input, subject_type, emotion, scene_setting,

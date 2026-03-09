@@ -13,7 +13,7 @@ suggested_hardware: zero-a10g
 
 # PatientPartner Healthcare Photo Generator
 
-Generates photorealistic healthcare photography using FLUX.1-dev on free ZeroGPU.
+Generates photorealistic healthcare photography using FLUX.1-schnell on free ZeroGPU.
 
 ## Features
 
@@ -27,7 +27,7 @@ Generates photorealistic healthcare photography using FLUX.1-dev on free ZeroGPU
 
 | Variable | Required | Description |
 |----------|----------|-------------|
-| `HF_TOKEN` | Yes | Hugging Face token (for gated FLUX model access) |
+| `HF_TOKEN` | No | Hugging Face token (schnell is open, but helps with rate limits) |
 | `LORA_REPO` | No | HF repo with LoRA weights (e.g. `patientpartner/healthcare-lora`) |
 | `LORA_FILENAME` | No | LoRA weights filename (default: `pytorch_lora_weights.safetensors`) |
 | `LORA_TRIGGER_WORD` | No | Trigger word for the LoRA (e.g. `PTPTNR`) |
@@ -46,8 +46,8 @@ result = client.predict(
     emotion="supportive",
     scene_setting="consultation",
     preset="blog (1200x800)",
-    guidance_scale=3.5,
-    num_steps=28,
+    guidance_scale=0.0,
+    num_steps=4,
     seed=-1,
     api_name="/generate",
 )
