@@ -4,12 +4,13 @@ PatientPartner Image Generator MCP Server
 Generates photorealistic images of real-looking people for PatientPartner.com.
 Prompts are engineered to produce actual portraits — not abstract, not illustrated.
 
-Backends (in priority order):
-  1. Google Gemini   — gemini-2.0-flash-exp image gen  (GOOGLE_API_KEY)
-  2. HF Inference    — FLUX.1-schnell                  (HF_TOKEN)
-  3. HF Space        — Custom Gradio Space              (HF_SPACE_ID)
-  4. Replicate       — FLUX.1-dev or Imagen 4          (REPLICATE_API_TOKEN)
-  5. Prompt-only     — Returns prompt only, no image
+Backends (tried in order, auto-fallback on failure):
+  1. Google Imagen 3 — imagen-3.0-generate-002  (GOOGLE_API_KEY, google-genai SDK)
+  2. Google Gemini   — gemini-2.0-flash-exp      (GOOGLE_API_KEY, google-genai SDK)
+  3. HF Inference    — FLUX.1-schnell            (HF_TOKEN)
+  4. HF Space        — Custom Gradio Space       (HF_SPACE_ID)
+  5. Replicate       — FLUX.1-dev                (REPLICATE_API_TOKEN)
+  6. Prompt-only     — Returns prompt only, no image
 
 Usage:
     python server.py   # stdio transport for Claude Code
@@ -45,7 +46,8 @@ REPLICATE_API_TOKEN = os.getenv("REPLICATE_API_TOKEN", "")
 # Build ordered list of available backends (tried in this order)
 AVAILABLE_BACKENDS: list[str] = []
 if GOOGLE_API_KEY:
-    AVAILABLE_BACKENDS.append("google_gemini")
+    AVAILABLE_BACKENDS.append("google_imagen")   # Imagen 3 — best for people
+    AVAILABLE_BACKENDS.append("google_gemini")    # Gemini Flash — fallback
 if HF_TOKEN:
     AVAILABLE_BACKENDS.append("hf_inference")
 if HF_SPACE_ID:
@@ -267,25 +269,54 @@ def _filename(asset_type: str, descriptor: str, aspect_ratio: str, fmt: str) -> 
 
 
 # ---------------------------------------------------------------------------
-# Backend: Google Gemini (generativelanguage.googleapis.com)
+# Backend: Google (via google-genai SDK)
+#   - Imagen 3: imagen-3.0-generate-002 (best photorealism for people)
+#   - Gemini Flash: gemini-2.0-flash-exp (multimodal, image output)
 # ---------------------------------------------------------------------------
 
-GEMINI_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent"
+_google_client = None
+
+
+def _get_google_client():
+    global _google_client
+    if _google_client is None:
+        from google import genai  # lazy import — only if backend is used
+        _google_client = genai.Client(api_key=GOOGLE_API_KEY)
+    return _google_client
+
+
+async def _imagen_generate(prompt: str) -> bytes:
+    """Generate with Imagen 3 — best for photorealistic people."""
+    from google.genai import types
+    client = _get_google_client()
+    # Run sync SDK call in thread to not block event loop
+    loop = asyncio.get_event_loop()
+    result = await loop.run_in_executor(None, lambda: client.models.generate_images(
+        model="imagen-3.0-generate-002",
+        prompt=prompt,
+        config=types.GenerateImagesConfig(
+            number_of_images=1,
+            aspect_ratio="3:2",
+        ),
+    ))
+    if not result.generated_images:
+        raise RuntimeError("Imagen 3 returned no images")
+    return result.generated_images[0].image.image_bytes
 
 
 async def _gemini_generate(prompt: str) -> bytes:
-    payload = {
-        "contents": [{"parts": [{"text": prompt}]}],
-        "generationConfig": {"responseModalities": ["IMAGE", "TEXT"]},
-    }
-    async with httpx.AsyncClient(timeout=120) as client:
-        resp = await client.post(f"{GEMINI_URL}?key={GOOGLE_API_KEY}", json=payload)
-        if resp.status_code != 200:
-            raise RuntimeError(f"Gemini {resp.status_code}: {resp.text[:400]}")
-        parts = resp.json()["candidates"][0]["content"]["parts"]
-        for part in parts:
-            if "inlineData" in part:
-                return base64.b64decode(part["inlineData"]["data"])
+    """Generate with Gemini 2.0 Flash — multimodal image output."""
+    from google.genai import types
+    client = _get_google_client()
+    loop = asyncio.get_event_loop()
+    response = await loop.run_in_executor(None, lambda: client.models.generate_content(
+        model="gemini-2.0-flash-exp",
+        contents=f"Generate a photorealistic photograph: {prompt}",
+        config=types.GenerateContentConfig(response_modalities=["IMAGE", "TEXT"]),
+    ))
+    for part in response.candidates[0].content.parts:
+        if part.inline_data:
+            return part.inline_data.data
     raise RuntimeError("Gemini returned no image data")
 
 
@@ -461,7 +492,11 @@ async def _generate(
             model_name = backend
             extra: dict[str, Any] = {}
 
-            if backend == "google_gemini":
+            if backend == "google_imagen":
+                image_bytes = await _imagen_generate(prompt)
+                model_name = "imagen-3.0-generate-002"
+
+            elif backend == "google_gemini":
                 image_bytes = await _gemini_generate(prompt)
                 model_name = "gemini-2.0-flash-exp"
 
@@ -542,6 +577,7 @@ PLATFORM_TO_PRESET = {
 }
 
 _BACKEND_NAMES = {
+    "google_imagen": "Imagen 3",
     "google_gemini": "Gemini 2.0 Flash",
     "hf_inference":  "FLUX.1-schnell (HF)",
     "hf_space":      f"HF Space: {HF_SPACE_ID}",
