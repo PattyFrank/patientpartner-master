@@ -47,9 +47,12 @@ GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY", "")
 HF_TOKEN = os.getenv("HF_TOKEN", "")
 HF_SPACE_ID = os.getenv("HF_SPACE_ID", "")
 REPLICATE_API_TOKEN = os.getenv("REPLICATE_API_TOKEN", "")
+LOCAL_TEST = os.getenv("LOCAL_TEST", "").lower() in ("1", "true", "yes")
 
 # Determine active backend (priority order)
-if GOOGLE_API_KEY:
+if LOCAL_TEST:
+    BACKEND = "local_pil"
+elif GOOGLE_API_KEY:
     BACKEND = "google_gemini"
 elif HF_TOKEN:
     BACKEND = "hf_inference"
@@ -250,6 +253,160 @@ def _generate_filename(
     ratio_str = aspect_ratio.replace(":", "x")
     timestamp = datetime.now().strftime("%Y%m%d-%H%M%S")
     return f"{asset_type}-{descriptor}-{ratio_str}-{timestamp}.{fmt}"
+
+
+# ---------------------------------------------------------------------------
+# Backend 0: Local PIL generator (no network — for sandbox / offline testing)
+# Generates a styled branded image with the prompt embedded. Full pipeline demo.
+# ---------------------------------------------------------------------------
+
+# PatientPartner brand colors
+PP_TEAL = (0, 171, 169)        # #00ABA9
+PP_DARK = (30, 47, 69)         # #1E2F45
+PP_WARM = (248, 243, 237)      # #F8F3ED
+PP_ACCENT = (255, 107, 53)     # #FF6B35
+
+
+def generate_local_pil_image(
+    prompt: str,
+    width: int = 1024,
+    height: int = 680,
+    subject_type: str | None = None,
+    emotion: str | None = None,
+) -> bytes:
+    """
+    Generate a branded placeholder image using Pillow only — no network needed.
+    Demonstrates the full MCP pipeline (prompt → file → naming conventions).
+    Replace with a real backend for production use.
+    """
+    from PIL import Image, ImageDraw, ImageFont, ImageFilter
+    import math, random, io
+
+    rng = random.Random(abs(hash(prompt)) % (2**31))
+
+    img = Image.new("RGB", (width, height), PP_WARM)
+    draw = ImageDraw.Draw(img)
+
+    # Gradient background
+    for y in range(height):
+        t = y / height
+        r = int(PP_WARM[0] * (1 - t) + PP_DARK[0] * t * 0.15)
+        g = int(PP_WARM[1] * (1 - t) + PP_DARK[1] * t * 0.15)
+        b = int(PP_WARM[2] * (1 - t) + PP_DARK[2] * t * 0.25)
+        draw.line([(0, y), (width, y)], fill=(r, g, b))
+
+    # Organic circles — suggest people/bokeh
+    circle_configs = [
+        (0.15, 0.4, 0.28, PP_TEAL, 40),
+        (0.72, 0.35, 0.22, PP_DARK, 35),
+        (0.45, 0.65, 0.18, PP_TEAL, 50),
+        (0.85, 0.7, 0.15, PP_ACCENT, 30),
+        (0.08, 0.75, 0.12, PP_ACCENT, 25),
+    ]
+    for cx_r, cy_r, r_r, color, alpha in circle_configs:
+        cx = int(cx_r * width)
+        cy = int(cy_r * height)
+        radius = int(r_r * min(width, height))
+        jitter = int(rng.uniform(-0.03, 0.03) * min(width, height))
+        overlay = Image.new("RGBA", (width, height), (0, 0, 0, 0))
+        ov_draw = ImageDraw.Draw(overlay)
+        ov_draw.ellipse(
+            [cx - radius + jitter, cy - radius + jitter,
+             cx + radius + jitter, cy + radius + jitter],
+            fill=(*color, alpha),
+        )
+        img = Image.alpha_composite(img.convert("RGBA"), overlay).convert("RGB")
+        draw = ImageDraw.Draw(img)
+
+    img = img.filter(ImageFilter.GaussianBlur(radius=2))
+    draw = ImageDraw.Draw(img)
+
+    # Teal header bar
+    bar_h = max(60, height // 9)
+    draw.rectangle([(0, 0), (width, bar_h)], fill=PP_TEAL)
+
+    # PatientPartner wordmark
+    font_size_brand = max(18, bar_h // 2)
+    try:
+        font_brand = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", font_size_brand)
+        font_body = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", max(14, height // 42))
+        font_small = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", max(11, height // 56))
+    except Exception:
+        font_brand = ImageFont.load_default()
+        font_body = font_brand
+        font_small = font_brand
+
+    draw.text((20, bar_h // 2 - font_size_brand // 2), "PatientPartner", font=font_brand, fill="white")
+
+    # Teal dot separator
+    dot_x = 20 + draw.textlength("PatientPartner", font=font_brand) + 16
+    dot_y = bar_h // 2
+    draw.ellipse([dot_x - 5, dot_y - 5, dot_x + 5, dot_y + 5], fill=PP_ACCENT)
+
+    badge_text = (subject_type or "generated").replace("_", " ").upper()
+    draw.text((dot_x + 18, bar_h // 2 - font_size_brand // 2), badge_text, font=font_brand, fill=PP_WARM)
+
+    # Emotion ribbon
+    if emotion:
+        emo_text = f"  {emotion.upper()}  "
+        ribbon_w = int(draw.textlength(emo_text, font=font_small)) + 4
+        ribbon_h = max(22, height // 28)
+        ribbon_y = bar_h + 16
+        ribbon_x = width - ribbon_w - 20
+        draw.rounded_rectangle(
+            [ribbon_x, ribbon_y, ribbon_x + ribbon_w, ribbon_y + ribbon_h],
+            radius=ribbon_h // 2,
+            fill=PP_ACCENT,
+        )
+        draw.text((ribbon_x + 2, ribbon_y + (ribbon_h - font_small.size) // 2), emo_text, font=font_small, fill="white")
+
+    # Prompt text — wrapped
+    margin = 32
+    text_y = bar_h + max(48, height // 10)
+    max_line_w = width - margin * 2
+    words = prompt.split()
+    lines: list[str] = []
+    current = ""
+    for word in words:
+        test = (current + " " + word).strip()
+        if draw.textlength(test, font=font_body) <= max_line_w:
+            current = test
+        else:
+            if current:
+                lines.append(current)
+            current = word
+        if len(lines) >= 6:
+            break
+    if current and len(lines) < 6:
+        lines.append(current)
+
+    line_h = max(20, height // 28)
+    for line in lines:
+        draw.text((margin, text_y), line, font=font_body, fill=PP_DARK)
+        text_y += line_h + 4
+
+    # Bottom bar
+    bottom_bar_y = height - max(36, height // 16)
+    draw.rectangle([(0, bottom_bar_y), (width, height)], fill=PP_DARK)
+    draw.text(
+        (20, bottom_bar_y + (height - bottom_bar_y - max(14, height // 44)) // 2),
+        "Generated by PatientPartner Image Generator MCP  ·  Peer-to-Peer Beats Everything",
+        font=font_small,
+        fill=(*PP_TEAL, 220),
+    )
+
+    # Subtle noise texture
+    for _ in range(width * height // 60):
+        px = rng.randint(0, width - 1)
+        py = rng.randint(bar_h, bottom_bar_y - 1)
+        v = rng.randint(-12, 12)
+        px_color = img.getpixel((px, py))
+        noisy = tuple(max(0, min(255, c + v)) for c in px_color)
+        img.putpixel((px, py), noisy)
+
+    buf = io.BytesIO()
+    img.save(buf, format="JPEG", quality=92)
+    return buf.getvalue()
 
 
 # ---------------------------------------------------------------------------
@@ -550,6 +707,44 @@ async def _do_generate(
     logger.info(f"Backend: {BACKEND} | {ar} {width}x{height} {output_format}")
     logger.info(f"Prompt: {full_prompt[:200]}...")
 
+    # ── Local PIL (sandbox / offline — no network required) ──
+    if BACKEND == "local_pil":
+        logger.info("Generating locally with PIL (sandbox mode)...")
+        import asyncio as _asyncio
+        image_bytes = await _asyncio.get_event_loop().run_in_executor(
+            None,
+            lambda: generate_local_pil_image(
+                prompt=full_prompt,
+                width=width,
+                height=height,
+                subject_type=subject_type,
+                emotion=emotion,
+            ),
+        )
+
+        response: dict[str, Any] = {
+            "status": "success",
+            "backend": "local_pil (sandbox demo)",
+            "model": "pillow-local",
+            "note": (
+                "Sandbox mode: generated a branded placeholder. "
+                "Set GOOGLE_API_KEY or HF_TOKEN for real AI-generated images."
+            ),
+            "prompt_used": full_prompt,
+            "settings": {"aspect_ratio": ar, "width": width, "height": height},
+        }
+
+        filename = _generate_filename(asset_type, descriptor, ar, output_format)
+        try:
+            local_path = save_image_bytes(image_bytes, filename)
+            response["local_path"] = local_path
+            response["filename"] = filename
+            logger.info(f"Saved: {local_path}")
+        except Exception as e:
+            response["save_error"] = str(e)
+
+        return [TextContent(type="text", text=json.dumps(response, indent=2))]
+
     # ── Google Gemini (primary — works everywhere googleapis.com is reachable) ──
     if BACKEND == "google_gemini":
         logger.info("Generating via Google Gemini 2.0 Flash...")
@@ -697,6 +892,7 @@ async def list_tools() -> list[Tool]:
     """List available image generation tools."""
 
     backend_note = {
+        "local_pil": "LOCAL SANDBOX MODE — generates branded placeholder (set GOOGLE_API_KEY for real images)",
         "google_gemini": "Using Gemini 2.0 Flash image generation (free)",
         "hf_inference": "Using FLUX.1-schnell via HF Inference API (free)",
         "hf_space": f"Using custom HF Space: {HF_SPACE_ID} (free)",
