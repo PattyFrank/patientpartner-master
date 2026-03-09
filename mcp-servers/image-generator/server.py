@@ -5,11 +5,11 @@ Generates photorealistic images of real-looking people for PatientPartner.com.
 Prompts are engineered to produce actual portraits — not abstract, not illustrated.
 
 Backends (tried in order, auto-fallback on failure):
-  1. Google Imagen 3 — imagen-3.0-generate-002  (GOOGLE_API_KEY, google-genai SDK)
-  2. Google Gemini   — gemini-2.0-flash-exp      (GOOGLE_API_KEY, google-genai SDK)
-  3. HF Inference    — FLUX.1-schnell            (HF_TOKEN)
-  4. HF Space        — Custom Gradio Space       (HF_SPACE_ID)
-  5. Replicate       — FLUX.1-dev                (REPLICATE_API_TOKEN)
+  1. Replicate       — google/nano-banana-2      (REPLICATE_API_TOKEN)
+  2. Google Imagen 3 — imagen-3.0-generate-002   (GOOGLE_API_KEY, google-genai SDK)
+  3. Google Gemini   — gemini-2.0-flash-exp      (GOOGLE_API_KEY, google-genai SDK)
+  4. HF Inference    — FLUX.1-schnell            (HF_TOKEN)
+  5. HF Space        — Custom Gradio Space       (HF_SPACE_ID)
   6. Prompt-only     — Returns prompt only, no image
 
 Usage:
@@ -45,15 +45,15 @@ REPLICATE_API_TOKEN = os.getenv("REPLICATE_API_TOKEN", "")
 
 # Build ordered list of available backends (tried in this order)
 AVAILABLE_BACKENDS: list[str] = []
+if REPLICATE_API_TOKEN:
+    AVAILABLE_BACKENDS.append("replicate")       # Nano Banana 2 — primary
 if GOOGLE_API_KEY:
-    AVAILABLE_BACKENDS.append("google_imagen")   # Imagen 3 — best for people
-    AVAILABLE_BACKENDS.append("google_gemini")    # Gemini Flash — fallback
+    AVAILABLE_BACKENDS.append("google_imagen")   # Imagen 3 — fallback
+    AVAILABLE_BACKENDS.append("google_gemini")   # Gemini Flash — fallback
 if HF_TOKEN:
     AVAILABLE_BACKENDS.append("hf_inference")
 if HF_SPACE_ID:
     AVAILABLE_BACKENDS.append("hf_space")
-if REPLICATE_API_TOKEN:
-    AVAILABLE_BACKENDS.append("replicate")
 if not AVAILABLE_BACKENDS:
     AVAILABLE_BACKENDS.append("prompt_only")
 
@@ -384,41 +384,72 @@ async def _hf_space_generate(scene: str, subject_type: str | None, emotion: str 
 
 
 # ---------------------------------------------------------------------------
-# Backend: Replicate (FLUX.1-dev)
+# Backend: Replicate — Nano Banana 2 (google/nano-banana-2)
+#   Google's Gemini 3.1 Flash Image model. Best photorealism + speed.
+#   Supports: prompt, aspect_ratio, resolution, output_format, image_input
 # ---------------------------------------------------------------------------
 
-REPLICATE_MODEL = "black-forest-labs/flux-dev"
+REPLICATE_MODEL = "google/nano-banana-2"
 REPLICATE_BASE  = "https://api.replicate.com/v1"
+
+# Map our aspect ratios to Nano Banana 2 supported values
+_NB2_ASPECT_RATIOS = {
+    "1:1", "2:3", "3:2", "3:4", "4:3", "4:5", "5:4", "9:16", "16:9", "21:9",
+    "1:4", "4:1", "1:8", "8:1",
+}
 
 
 async def _replicate_generate(prompt: str, aspect_ratio: str, output_format: str) -> dict[str, Any]:
     headers = {
         "Authorization": f"Bearer {REPLICATE_API_TOKEN}",
         "Content-Type": "application/json",
+        "Prefer": "wait",  # sync mode — blocks until complete (up to 60s)
     }
+    ar = aspect_ratio if aspect_ratio in _NB2_ASPECT_RATIOS else "3:2"
+    fmt = output_format if output_format in ("jpg", "png") else "jpg"
+
     payload = {
         "input": {
             "prompt": prompt,
-            "aspect_ratio": aspect_ratio,
-            "output_format": output_format,
-            "num_inference_steps": 28,
-            "guidance": 3.5,
+            "aspect_ratio": ar,
+            "output_format": fmt,
+            "resolution": "2K",
         }
     }
 
-    async with httpx.AsyncClient(timeout=30) as client:
+    # Try sync mode first (Prefer: wait), fall back to polling
+    async with httpx.AsyncClient(timeout=120) as client:
         resp = await client.post(
             f"{REPLICATE_BASE}/models/{REPLICATE_MODEL}/predictions",
             headers=headers, json=payload,
         )
         if resp.status_code not in (200, 201):
-            raise RuntimeError(f"Replicate {resp.status_code}: {resp.text}")
-        prediction_id = resp.json()["id"]
+            raise RuntimeError(f"Replicate {resp.status_code}: {resp.text[:400]}")
 
+        data = resp.json()
+        prediction_id = data["id"]
+
+        # If sync mode returned a completed prediction
+        if data.get("status") == "succeeded" and data.get("output"):
+            output = data["output"]
+            return {
+                "image_url": output if isinstance(output, str) else output[0],
+                "prediction_id": prediction_id,
+                "model": REPLICATE_MODEL,
+            }
+
+    # Poll for completion (if sync mode didn't finish in time)
+    poll_headers = {
+        "Authorization": f"Bearer {REPLICATE_API_TOKEN}",
+        "Content-Type": "application/json",
+    }
     async with httpx.AsyncClient(timeout=30) as client:
-        for _ in range(60):
-            await asyncio.sleep(5)
-            r = await client.get(f"{REPLICATE_BASE}/predictions/{prediction_id}", headers=headers)
+        for attempt in range(60):
+            await asyncio.sleep(3 if attempt < 10 else 5)
+            r = await client.get(
+                f"{REPLICATE_BASE}/predictions/{prediction_id}",
+                headers=poll_headers,
+            )
             data = r.json()
             if data["status"] == "succeeded":
                 output = data["output"]
@@ -430,7 +461,7 @@ async def _replicate_generate(prompt: str, aspect_ratio: str, output_format: str
             elif data["status"] in ("failed", "canceled"):
                 raise RuntimeError(f"Replicate {data['status']}: {data.get('error')}")
 
-    raise RuntimeError("Replicate timed out")
+    raise RuntimeError("Replicate timed out after 5 minutes")
 
 
 # ---------------------------------------------------------------------------
@@ -577,11 +608,11 @@ PLATFORM_TO_PRESET = {
 }
 
 _BACKEND_NAMES = {
+    "replicate":     "Nano Banana 2 (Replicate)",
     "google_imagen": "Imagen 3",
     "google_gemini": "Gemini 2.0 Flash",
     "hf_inference":  "FLUX.1-schnell (HF)",
     "hf_space":      f"HF Space: {HF_SPACE_ID}",
-    "replicate":     "FLUX.1-dev (Replicate)",
     "prompt_only":   "prompt-only",
 }
 _backend_label = " → ".join(_BACKEND_NAMES.get(b, b) for b in AVAILABLE_BACKENDS)
