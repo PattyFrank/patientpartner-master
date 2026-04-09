@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Peer-to-Peer Playbook — Free Download | PatientPartner</title>
+<meta name="description" content="The framework behind 68% more treatment starts and 133.5 more days on therapy. A data-backed playbook for pharma leaders on why peer-to-peer mentorship outperforms every other patient engagement tactic.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #314D69;
+  --navy-deep: #243A52;
+  --teal: #74CCD3;
+  --teal-dark: #188F8B;
+  --teal-light: #DDF7F9;
+  --teal-icon: #59B6BE;
+  --white: #FFFFFF;
+  --gray-50: #F8FAFC;
+  --gray-100: #F1F5F9;
+  --gray-200: #E2E8F0;
+  --gray-400: #94A3B8;
+  --gray-600: #475569;
+  --gray-800: #1E293B;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Inter', -apple-system, sans-serif; color: var(--gray-800); line-height: 1.6; background: var(--white); overflow-x: hidden; }
+.container { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+
+/* NAV */
+.nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(49,77,105,0.97); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(116,204,211,0.15); }
+.nav-inner { max-width: 1120px; margin: 0 auto; padding: 0 24px; height: 64px; display: flex; align-items: center; justify-content: space-between; }
+.nav-logo { font-weight: 700; font-size: 18px; color: var(--white); text-decoration: none; }
+.nav-logo span { color: var(--teal); }
+.nav-cta { background: var(--teal); color: var(--navy); padding: 8px 20px; border-radius: 6px; font-weight: 600; font-size: 14px; text-decoration: none; }
+.nav-cta:hover { background: var(--teal-icon); }
+
+/* HERO */
+.hero { background: linear-gradient(135deg, var(--navy) 0%, var(--navy-deep) 100%); color: var(--white); padding: 128px 0 80px; position: relative; overflow: hidden; }
+.hero::before { content: ''; position: absolute; top: -100px; right: -100px; width: 500px; height: 500px; border-radius: 50%; background: radial-gradient(circle, rgba(116,204,211,0.1) 0%, transparent 70%); }
+.hero::after { content: ''; position: absolute; bottom: -60px; left: -60px; width: 350px; height: 350px; border-radius: 50%; background: radial-gradient(circle, rgba(116,204,211,0.06) 0%, transparent 70%); }
+.hero-inner { max-width: 1120px; margin: 0 auto; padding: 0 24px; display: grid; grid-template-columns: 1fr; gap: 48px; position: relative; z-index: 1; }
+@media (min-width: 768px) { .hero-inner { grid-template-columns: 1.15fr 0.85fr; align-items: center; } }
+.hero-badge { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--teal); border: 1.5px solid rgba(116,204,211,0.4); padding: 5px 14px; border-radius: 4px; margin-bottom: 20px; }
+.hero h1 { font-family: 'Lora', Georgia, serif; font-weight: 700; font-size: clamp(30px, 4.5vw, 44px); line-height: 1.15; margin-bottom: 20px; }
+.hero h1 span { color: var(--teal); }
+.hero-sub { font-size: 17px; color: var(--teal-light); line-height: 1.6; margin-bottom: 28px; max-width: 500px; }
+.hero-proof { display: flex; gap: 24px; flex-wrap: wrap; }
+.hero-proof-item { border-left: 3px solid var(--teal); padding-left: 12px; }
+.hero-proof-num { font-size: 22px; font-weight: 800; color: var(--teal); line-height: 1; }
+.hero-proof-lbl { font-size: 11px; color: var(--gray-400); text-transform: uppercase; letter-spacing: 0.3px; margin-top: 2px; }
+
+/* FORM */
+.form-card { background: var(--white); border-radius: 16px; padding: 36px 32px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+.form-card h3 { font-family: 'Lora', Georgia, serif; font-weight: 700; font-size: 22px; color: var(--navy); margin-bottom: 4px; }
+.form-sub { font-size: 14px; color: var(--gray-600); margin-bottom: 24px; }
+.form-group { margin-bottom: 16px; }
+.form-group label { display: block; font-size: 13px; font-weight: 600; color: var(--gray-800); margin-bottom: 6px; }
+.form-group input { width: 100%; padding: 10px 14px; border: 1.5px solid var(--gray-200); border-radius: 8px; font-size: 14px; font-family: inherit; color: var(--gray-800); background: var(--gray-50); }
+.form-group input:focus { outline: none; border-color: var(--teal); background: var(--white); }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.form-submit { width: 100%; padding: 14px; background: var(--navy); color: var(--white); border: none; border-radius: 8px; font-size: 16px; font-weight: 700; font-family: inherit; cursor: pointer; margin-top: 8px; }
+.form-submit:hover { background: var(--navy-deep); }
+.form-footer { font-size: 11px; color: var(--gray-400); text-align: center; margin-top: 12px; line-height: 1.5; }
+
+/* DATA BAR */
+.data-bar { background: var(--gray-50); border-top: 1px solid var(--gray-200); border-bottom: 1px solid var(--gray-200); padding: 40px 0; }
+.data-bar-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--gray-400); margin-bottom: 20px; text-align: center; }
+.data-stats { display: flex; justify-content: center; gap: 48px; flex-wrap: wrap; }
+.data-stat { text-align: center; }
+.data-stat-num { font-size: 36px; font-weight: 800; color: var(--navy); line-height: 1; }
+.data-stat-lbl { font-size: 13px; color: var(--gray-600); margin-top: 4px; max-width: 140px; }
+
+/* CHAPTERS */
+.chapters { padding: 80px 0; }
+.chapters-header { text-align: center; max-width: 640px; margin: 0 auto 48px; }
+.chapters-header h2 { font-family: 'Lora', Georgia, serif; font-weight: 700; font-size: 32px; color: var(--navy); margin-bottom: 12px; }
+.chapters-header p { font-size: 16px; color: var(--gray-600); }
+.chapters-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
+@media (min-width: 768px) { .chapters-grid { grid-template-columns: 1fr 1fr; } }
+.chapter-card { padding: 28px; border-radius: 12px; border: 1px solid var(--gray-200); background: var(--white); transition: border-color 0.2s; }
+.chapter-card:hover { border-color: var(--teal); }
+.chapter-num-badge { display: inline-block; background: var(--navy); color: var(--teal); font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 4px; margin-bottom: 12px; letter-spacing: 1px; text-transform: uppercase; }
+.chapter-card h4 { font-size: 16px; font-weight: 700; color: var(--navy); margin-bottom: 6px; }
+.chapter-card p { font-size: 14px; color: var(--gray-600); line-height: 1.55; margin: 0; }
+
+/* PROBLEM */
+.problem { background: var(--navy); color: var(--white); padding: 80px 0; }
+.problem-inner { max-width: 720px; margin: 0 auto; text-align: center; }
+.problem h2 { font-family: 'Lora', Georgia, serif; font-weight: 700; font-size: 28px; margin-bottom: 20px; }
+.problem h2 span { color: var(--teal); }
+.problem p { font-size: 16px; color: var(--teal-light); line-height: 1.7; margin-bottom: 16px; }
+.problem-highlight { display: inline-block; background: rgba(116,204,211,0.12); border: 1px solid rgba(116,204,211,0.25); border-radius: 8px; padding: 20px 32px; margin-top: 20px; font-size: 15px; color: var(--white); line-height: 1.6; }
+.problem-highlight strong { color: var(--teal); }
+
+/* SOURCES */
+.source-bar { padding: 48px 0; }
+.source-bar-inner { max-width: 720px; margin: 0 auto; text-align: center; }
+.source-bar h3 { font-family: 'Lora', Georgia, serif; font-weight: 700; font-size: 20px; color: var(--navy); margin-bottom: 16px; }
+.source-logos { display: flex; justify-content: center; gap: 32px; flex-wrap: wrap; align-items: center; }
+.source-name { font-size: 14px; font-weight: 700; color: var(--gray-400); padding: 8px 16px; border: 1px solid var(--gray-200); border-radius: 6px; }
+
+/* QUOTE */
+.quote-section { padding: 64px 0; background: var(--teal-light); }
+.quote-inner { max-width: 720px; margin: 0 auto; text-align: center; }
+.quote-mark { font-size: 64px; color: var(--teal); line-height: 1; font-family: Georgia, serif; }
+.quote-text { font-family: 'Lora', Georgia, serif; font-size: 21px; font-weight: 400; color: var(--navy); line-height: 1.5; font-style: italic; margin-bottom: 20px; }
+.quote-attr { font-size: 14px; color: var(--gray-600); font-weight: 600; }
+
+/* BOTTOM CTA */
+.bottom-cta { padding: 80px 0; text-align: center; }
+.bottom-cta h2 { font-family: 'Lora', Georgia, serif; font-weight: 700; font-size: 32px; color: var(--navy); margin-bottom: 12px; }
+.bottom-cta p { font-size: 16px; color: var(--gray-600); max-width: 520px; margin: 0 auto 32px; }
+.bottom-cta-btn { display: inline-block; background: var(--navy); color: var(--white); padding: 16px 40px; border-radius: 8px; font-weight: 700; font-size: 16px; text-decoration: none; }
+.bottom-cta-btn:hover { background: var(--navy-deep); }
+
+/* FOOTER */
+.lp-footer { background: var(--navy); color: var(--gray-400); padding: 40px 0; text-align: center; }
+.lp-footer-logo { font-size: 18px; font-weight: 700; color: var(--white); margin-bottom: 8px; }
+.lp-footer-logo span { color: var(--teal); }
+.lp-footer p { font-size: 12px; line-height: 1.6; }
+.lp-footer a { color: var(--teal); text-decoration: none; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="https://www.patientpartner.com" class="nav-logo">Patient<span>Partner</span></a>
+    <a href="#download" class="nav-cta">Download Free Playbook</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="download">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-badge">Free Playbook &mdash; 2026 Edition</div>
+      <h1>The Framework Behind <span>68% More Treatment Starts</span></h1>
+      <p class="hero-sub">How peer-to-peer mentorship outperforms every other patient engagement tactic&mdash;with the data, frameworks, and ROI math to prove it. Backed by Edelman, IQVIA, and 50,000+ patient interactions.</p>
+      <div class="hero-proof">
+        <div class="hero-proof-item"><div class="hero-proof-num">6</div><div class="hero-proof-lbl">Chapters</div></div>
+        <div class="hero-proof-item"><div class="hero-proof-num">16</div><div class="hero-proof-lbl">Data sources</div></div>
+        <div class="hero-proof-item"><div class="hero-proof-num">50K+</div><div class="hero-proof-lbl">Patient interactions</div></div>
+      </div>
+    </div>
+    <div class="form-card">
+      <h3>Download the Playbook</h3>
+      <p class="form-sub">Instant access. No sales call required.</p>
+      <form action="#" method="POST">
+        <div class="form-row">
+          <div class="form-group"><label for="fname">First Name *</label><input type="text" id="fname" name="first_name" required placeholder="Jane"></div>
+          <div class="form-group"><label for="lname">Last Name *</label><input type="text" id="lname" name="last_name" required placeholder="Smith"></div>
+        </div>
+        <div class="form-group"><label for="email">Work Email *</label><input type="email" id="email" name="email" required placeholder="jane@pharma.com"></div>
+        <div class="form-group"><label for="company">Company *</label><input type="text" id="company" name="company" required placeholder="Pharma Co."></div>
+        <div class="form-group"><label for="title">Job Title</label><input type="text" id="title" name="job_title" placeholder="Director, Patient Services"></div>
+        <button type="submit" class="form-submit">Get the Playbook &rarr;</button>
+      </form>
+      <p class="form-footer">Instant PDF download. No spam.<br>HIPAA &amp; SOC 2 compliant organization.</p>
+    </div>
+  </div>
+</section>
+
+<!-- DATA BAR -->
+<section class="data-bar">
+  <div class="container">
+    <div class="data-bar-label">The numbers inside the playbook</div>
+    <div class="data-stats">
+      <div class="data-stat"><div class="data-stat-num">$22B+</div><div class="data-stat-lbl">PSP annual spend</div></div>
+      <div class="data-stat"><div class="data-stat-num">3&ndash;8%</div><div class="data-stat-lbl">Utilization rate</div></div>
+      <div class="data-stat"><div class="data-stat-num">68%</div><div class="data-stat-lbl">More treatment starts</div></div>
+      <div class="data-stat"><div class="data-stat-num">133.5</div><div class="data-stat-lbl">More days on therapy</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CHAPTERS -->
+<section class="chapters">
+  <div class="container">
+    <div class="chapters-header">
+      <h2>What's Inside the Playbook</h2>
+      <p>Six data-backed chapters with real industry research, frameworks, and an ROI model you can take straight to leadership.</p>
+    </div>
+    <div class="chapters-grid">
+      <div class="chapter-card">
+        <div class="chapter-num-badge">Chapter 1</div>
+        <h4>The $22B Engagement Crisis</h4>
+        <p>Why pharma spends more on PSPs than ever&mdash;yet only 3&ndash;8% of patients use them. The adherence data that should alarm every patient services leader.</p>
+      </div>
+      <div class="chapter-card">
+        <div class="chapter-num-badge">Chapter 2</div>
+        <h4>The Trust Shift</h4>
+        <p>New Edelman, IQVIA, and Health Union data on why patients now trust peers with lived experience over brands and institutions.</p>
+      </div>
+      <div class="chapter-card" style="border-color:var(--teal); background:var(--teal-light);">
+        <div class="chapter-num-badge">Chapter 3</div>
+        <h4>Peer Mentorship vs. Everything Else</h4>
+        <p>Head-to-head effectiveness comparison across 9 intervention types. The data on why 1:1 matched mentorship outperforms every tactic.</p>
+      </div>
+      <div class="chapter-card" style="border-color:var(--teal); background:var(--teal-light);">
+        <div class="chapter-num-badge">Chapter 4</div>
+        <h4>The 5-Principle Framework</h4>
+        <p>Precision matching, real-time access, trained mentors, measurable outcomes, and enterprise compliance. The operating model that works.</p>
+      </div>
+      <div class="chapter-card">
+        <div class="chapter-num-badge">Chapter 5</div>
+        <h4>ROI Math Your CFO Will Approve</h4>
+        <p>Revenue recovery model, three revenue drivers, cost-effectiveness comparison, and a business case framework for leadership presentations.</p>
+      </div>
+      <div class="chapter-card">
+        <div class="chapter-num-badge">Chapter 6</div>
+        <h4>16-Week Implementation Roadmap</h4>
+        <p>From strategy to live program in under 4 months. Phase-by-phase guide with KPI benchmarks, integration points, and scaling playbook.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<section class="problem">
+  <div class="container">
+    <div class="problem-inner">
+      <h2>Your Program Handles Logistics. <span>Who Handles the Fear?</span></h2>
+      <p>Hub services, copay assistance, nurse educators, automated reminders&mdash;the industry has invested billions in operational patient support. These programs work for the patients who were going to start anyway.</p>
+      <p>But 40% of enrolled patients never fill their first prescription. The barrier isn't access. It's fear, uncertainty, and the absence of someone who understands what they're going through.</p>
+      <div class="problem-highlight">The playbook reveals the <strong>"missing middle"</strong>&mdash;the psychological gap between enrollment and first fill that no amount of logistics can close. And the only intervention proven to close it.</div>
+    </div>
+  </div>
+</section>
+
+<!-- SOURCE BAR -->
+<section class="source-bar">
+  <div class="container">
+    <div class="source-bar-inner">
+      <h3>Research &amp; Data Sources Inside</h3>
+      <div class="source-logos">
+        <div class="source-name">IQVIA</div>
+        <div class="source-name">Edelman</div>
+        <div class="source-name">Health Union</div>
+        <div class="source-name">Frontiers</div>
+        <div class="source-name">Accenture</div>
+        <div class="source-name">PatientPartner</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUOTE -->
+<section class="quote-section">
+  <div class="container">
+    <div class="quote-inner">
+      <div class="quote-mark">&ldquo;</div>
+      <p class="quote-text">Marketers are no longer just looking for reach; they are prioritizing trusted specialty platforms that can link top-of-funnel engagement to bottom-line results like prescription lift and ROI.</p>
+      <p class="quote-attr">&mdash; Olivier Chateau, CEO, Health Union (2026 Pharma Marketing Pulse Report)</p>
+    </div>
+  </div>
+</section>
+
+<!-- BOTTOM CTA -->
+<section class="bottom-cta">
+  <div class="container">
+    <h2>Get the Playbook. Build the Case. Close the Gap.</h2>
+    <p>Six chapters. Sixteen data sources. One framework that produces 68% more treatment starts and 133.5 more days on therapy.</p>
+    <a href="#download" class="bottom-cta-btn">Download the Free Playbook &rarr;</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="lp-footer">
+  <div class="container">
+    <div class="lp-footer-logo">Patient<span>Partner</span></div>
+    <p>Patient Engagement Software That Delivers Measurable ROI</p>
+    <p style="margin-top:12px;"><a href="https://www.patientpartner.com">patientpartner.com</a> &nbsp;|&nbsp; <a href="mailto:george@patientpartner.com">george@patientpartner.com</a></p>
+    <p style="margin-top:12px;">&copy; 2026 PatientPartner. All rights reserved. &nbsp;|&nbsp; HIPAA &bull; SOC 2 &bull; ISO 27001</p>
+  </div>
+</footer>
+
+</body>
+</html>

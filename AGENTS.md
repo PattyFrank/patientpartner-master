@@ -48,6 +48,12 @@ Requires: `pip install pymupdf4llm` (already in .venv)
 
 ---
 
+## Content Platforms: LinkedIn Only
+
+Social and atomized content for PatientPartner is **LinkedIn only**. Do not create Twitter/X, Instagram, TikTok, Threads, Bluesky, or Reddit content. See `.cursor/rules/content-platforms.mdc`.
+
+---
+
 ## Pushing to GitHub
 
 The agent **cannot** run `git push` (no interactive credentials). After the agent commits:

@@ -1,0 +1,15 @@
+# Content Platform Scope — PatientPartner
+
+**Social and atomized content: LinkedIn only.**
+
+When creating social content, atomizing newsletters, or building campaign assets for distribution:
+
+- **Create for:** LinkedIn only (carousels, text posts, documents)
+- **Do not create for:** Twitter/X, Instagram, TikTok, Threads, Bluesky, Reddit, YouTube Shorts
+
+**Rationale:** PatientPartner's ICPs (Director Patient Support, VP Patient Services, Director Patient Engagement) are primarily on LinkedIn. Focus resources on the platform that reaches decision-makers.
+
+**Applies to:**
+- /content-atomizer — Output LinkedIn assets only
+- /newsletter — No need to atomize to other platforms in "What's Next"
+- Any social content generation for PatientPartner

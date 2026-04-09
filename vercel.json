@@ -1,0 +1,13 @@
+{
+  "outputDirectory": "site",
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "headers": [
+    {
+      "source": "/(.*).pdf",
+      "headers": [
+        { "key": "Content-Disposition", "value": "attachment" }
+      ]
+    }
+  ]
+}

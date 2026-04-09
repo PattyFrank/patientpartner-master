@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Patient Drop-Off Scorecard — Free Download | PatientPartner</title>
+<meta name="description" content="Score your patient support program in 5 minutes. Find where patients disappear between enrollment and first fill. Free self-assessment tool for pharma and med-tech leaders.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #314D69;
+  --navy-deep: #243A52;
+  --teal: #74CCD3;
+  --teal-dark: #188F8B;
+  --teal-light: #DDF7F9;
+  --teal-icon: #59B6BE;
+  --white: #FFFFFF;
+  --gray-50: #F8FAFC;
+  --gray-100: #F1F5F9;
+  --gray-200: #E2E8F0;
+  --gray-400: #94A3B8;
+  --gray-600: #475569;
+  --gray-800: #1E293B;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  color: var(--gray-800);
+  line-height: 1.6;
+  background: var(--white);
+  overflow-x: hidden;
+}
+
+.container { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+
+/* ========== NAV ========== */
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: rgba(49, 77, 105, 0.97);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(116, 204, 211, 0.15);
+}
+.nav-inner {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 24px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.nav-logo {
+  font-weight: 700;
+  font-size: 18px;
+  color: var(--white);
+  text-decoration: none;
+}
+.nav-logo span { color: var(--teal); }
+.nav-cta {
+  background: var(--teal);
+  color: var(--navy);
+  padding: 8px 20px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 14px;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+.nav-cta:hover { background: var(--teal-icon); }
+
+/* ========== HERO ========== */
+.hero {
+  background: var(--navy);
+  color: var(--white);
+  padding: 128px 0 80px;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0; right: 0; bottom: 0;
+  width: 50%;
+  background: url('landing-hero.png') center/cover no-repeat;
+  opacity: 0.2;
+}
+@media (min-width: 768px) {
+  .hero::before { opacity: 0.35; width: 45%; }
+}
+.hero-inner {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 48px;
+  position: relative;
+  z-index: 1;
+}
+@media (min-width: 768px) {
+  .hero-inner { grid-template-columns: 1.1fr 0.9fr; align-items: center; }
+}
+.hero-badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--teal);
+  border: 1.5px solid var(--teal);
+  padding: 5px 14px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+}
+.hero h1 {
+  font-family: 'Lora', Georgia, serif;
+  font-weight: 700;
+  font-size: clamp(32px, 5vw, 48px);
+  line-height: 1.15;
+  margin-bottom: 20px;
+}
+.hero h1 span { color: var(--teal); }
+.hero-sub {
+  font-size: 18px;
+  color: var(--teal-light);
+  line-height: 1.6;
+  margin-bottom: 32px;
+  max-width: 500px;
+}
+.hero-proof {
+  display: flex;
+  gap: 28px;
+  flex-wrap: wrap;
+}
+.hero-proof-item {
+  border-left: 3px solid var(--teal);
+  padding-left: 12px;
+}
+.hero-proof-num {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--teal);
+  line-height: 1;
+}
+.hero-proof-lbl {
+  font-size: 11px;
+  color: var(--gray-400);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  margin-top: 2px;
+}
+
+/* ========== FORM CARD ========== */
+.form-card {
+  background: var(--white);
+  border-radius: 16px;
+  padding: 36px 32px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+}
+.form-card h3 {
+  font-family: 'Lora', Georgia, serif;
+  font-weight: 700;
+  font-size: 22px;
+  color: var(--navy);
+  margin-bottom: 4px;
+}
+.form-card .form-sub {
+  font-size: 14px;
+  color: var(--gray-600);
+  margin-bottom: 24px;
+}
+.form-group {
+  margin-bottom: 16px;
+}
+.form-group label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--gray-800);
+  margin-bottom: 6px;
+}
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1.5px solid var(--gray-200);
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: inherit;
+  color: var(--gray-800);
+  background: var(--gray-50);
+  transition: border-color 0.2s;
+}
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: var(--teal);
+  background: var(--white);
+}
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.form-submit {
+  width: 100%;
+  padding: 14px;
+  background: var(--navy);
+  color: var(--white);
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: background 0.2s;
+}
+.form-submit:hover { background: var(--navy-deep); }
+.form-footer {
+  font-size: 11px;
+  color: var(--gray-400);
+  text-align: center;
+  margin-top: 12px;
+  line-height: 1.5;
+}
+
+/* ========== SOCIAL PROOF BAR ========== */
+.proof-bar {
+  background: var(--gray-50);
+  border-top: 1px solid var(--gray-200);
+  border-bottom: 1px solid var(--gray-200);
+  padding: 32px 0;
+  text-align: center;
+}
+.proof-bar-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--gray-400);
+  margin-bottom: 16px;
+}
+.proof-stats {
+  display: flex;
+  justify-content: center;
+  gap: 48px;
+  flex-wrap: wrap;
+}
+.proof-stat {
+  text-align: center;
+}
+.proof-stat-num {
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--navy);
+  line-height: 1;
+}
+.proof-stat-lbl {
+  font-size: 13px;
+  color: var(--gray-600);
+  margin-top: 4px;
+}
+
+/* ========== WHAT YOU GET ========== */
+.features {
+  padding: 80px 0;
+}
+.features-header {
+  text-align: center;
+  max-width: 640px;
+  margin: 0 auto 48px;
+}
+.features-header h2 {
+  font-family: 'Lora', Georgia, serif;
+  font-weight: 700;
+  font-size: 32px;
+  color: var(--navy);
+  margin-bottom: 12px;
+}
+.features-header p {
+  font-size: 16px;
+  color: var(--gray-600);
+  line-height: 1.6;
+}
+.features-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+@media (min-width: 768px) {
+  .features-grid { grid-template-columns: 1fr 1fr; }
+}
+.feature-card {
+  padding: 28px;
+  border-radius: 12px;
+  border: 1px solid var(--gray-200);
+  background: var(--white);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.feature-card:hover {
+  border-color: var(--teal);
+  box-shadow: 0 4px 20px rgba(116,204,211,0.15);
+}
+.feature-icon {
+  width: 44px;
+  height: 44px;
+  background: var(--teal-light);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+  font-size: 20px;
+}
+.feature-card h4 {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 6px;
+}
+.feature-card p {
+  font-size: 14px;
+  color: var(--gray-600);
+  line-height: 1.55;
+}
+
+/* ========== PROBLEM ========== */
+.problem {
+  background: var(--navy);
+  color: var(--white);
+  padding: 80px 0;
+}
+.problem-inner {
+  max-width: 720px;
+  margin: 0 auto;
+  text-align: center;
+}
+.problem h2 {
+  font-family: 'Lora', Georgia, serif;
+  font-weight: 700;
+  font-size: 28px;
+  margin-bottom: 20px;
+}
+.problem h2 span { color: var(--teal); }
+.problem p {
+  font-size: 16px;
+  color: var(--teal-light);
+  line-height: 1.7;
+  margin-bottom: 16px;
+}
+.problem-highlight {
+  display: inline-block;
+  background: rgba(116,204,211,0.15);
+  border: 1px solid rgba(116,204,211,0.3);
+  border-radius: 8px;
+  padding: 20px 32px;
+  margin-top: 24px;
+  font-size: 15px;
+  color: var(--white);
+  line-height: 1.6;
+}
+.problem-highlight strong { color: var(--teal); }
+
+/* ========== TESTIMONIAL / QUOTE ========== */
+.quote-section {
+  padding: 64px 0;
+  background: var(--teal-light);
+}
+.quote-inner {
+  max-width: 720px;
+  margin: 0 auto;
+  text-align: center;
+}
+.quote-mark {
+  font-size: 64px;
+  color: var(--teal);
+  line-height: 1;
+  margin-bottom: 8px;
+  font-family: Georgia, serif;
+}
+.quote-text {
+  font-family: 'Lora', Georgia, serif;
+  font-size: 22px;
+  font-weight: 400;
+  color: var(--navy);
+  line-height: 1.5;
+  font-style: italic;
+  margin-bottom: 20px;
+}
+.quote-attr {
+  font-size: 14px;
+  color: var(--gray-600);
+  font-weight: 600;
+}
+
+/* ========== BOTTOM CTA ========== */
+.bottom-cta {
+  padding: 80px 0;
+  text-align: center;
+}
+.bottom-cta h2 {
+  font-family: 'Lora', Georgia, serif;
+  font-weight: 700;
+  font-size: 32px;
+  color: var(--navy);
+  margin-bottom: 12px;
+}
+.bottom-cta p {
+  font-size: 16px;
+  color: var(--gray-600);
+  max-width: 520px;
+  margin: 0 auto 32px;
+  line-height: 1.6;
+}
+.bottom-cta-btn {
+  display: inline-block;
+  background: var(--navy);
+  color: var(--white);
+  padding: 16px 40px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 16px;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+.bottom-cta-btn:hover { background: var(--navy-deep); }
+
+/* ========== FOOTER ========== */
+.lp-footer {
+  background: var(--navy);
+  color: var(--gray-400);
+  padding: 40px 0;
+  text-align: center;
+}
+.lp-footer-logo {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 8px;
+}
+.lp-footer-logo span { color: var(--teal); }
+.lp-footer p {
+  font-size: 12px;
+  line-height: 1.6;
+}
+.lp-footer a { color: var(--teal); text-decoration: none; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="https://www.patientpartner.com" class="nav-logo">Patient<span>Partner</span></a>
+    <a href="#download" class="nav-cta">Download Free Scorecard</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="download">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-badge">Free Self-Assessment Tool</div>
+      <h1>Find Where Your Patients <span>Disappear</span></h1>
+      <p class="hero-sub">Score your patient support program across 7 dimensions in 5 minutes. Identify exactly where patients drop off between enrollment and first fill — and what it's costing you.</p>
+      <div class="hero-proof">
+        <div class="hero-proof-item">
+          <div class="hero-proof-num">$22B+</div>
+          <div class="hero-proof-lbl">Annual PSP spend</div>
+        </div>
+        <div class="hero-proof-item">
+          <div class="hero-proof-num">3–8%</div>
+          <div class="hero-proof-lbl">Utilization rate</div>
+        </div>
+        <div class="hero-proof-item">
+          <div class="hero-proof-num">35</div>
+          <div class="hero-proof-lbl">Diagnostic items</div>
+        </div>
+      </div>
+    </div>
+    <div class="form-card">
+      <h3>Download the Scorecard</h3>
+      <p class="form-sub">Instant access. No sales call required.</p>
+      <form action="#" method="POST">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="fname">First Name *</label>
+            <input type="text" id="fname" name="first_name" required placeholder="Jane">
+          </div>
+          <div class="form-group">
+            <label for="lname">Last Name *</label>
+            <input type="text" id="lname" name="last_name" required placeholder="Smith">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="email">Work Email *</label>
+          <input type="email" id="email" name="email" required placeholder="jane@pharma.com">
+        </div>
+        <div class="form-group">
+          <label for="company">Company *</label>
+          <input type="text" id="company" name="company" required placeholder="Pharma Co.">
+        </div>
+        <div class="form-group">
+          <label for="title">Job Title</label>
+          <input type="text" id="title" name="job_title" placeholder="Director, Patient Services">
+        </div>
+        <button type="submit" class="form-submit">Get the Scorecard →</button>
+      </form>
+      <p class="form-footer">We respect your time. No spam, no call blitz.<br>HIPAA &amp; SOC 2 compliant organization.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PROOF BAR -->
+<section class="proof-bar">
+  <div class="container">
+    <div class="proof-bar-label">Based on data from 50,000+ patient interactions</div>
+    <div class="proof-stats">
+      <div class="proof-stat">
+        <div class="proof-stat-num">68%</div>
+        <div class="proof-stat-lbl">More treatment starts</div>
+      </div>
+      <div class="proof-stat">
+        <div class="proof-stat-num">71%</div>
+        <div class="proof-stat-lbl">Say mentorship was critical</div>
+      </div>
+      <div class="proof-stat">
+        <div class="proof-stat-num">133.5</div>
+        <div class="proof-stat-lbl">More days on therapy</div>
+      </div>
+      <div class="proof-stat">
+        <div class="proof-stat-num">90%</div>
+        <div class="proof-stat-lbl">Confidence boost</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT YOU GET -->
+<section class="features">
+  <div class="container">
+    <div class="features-header">
+      <h2>What the Scorecard Covers</h2>
+      <p>7 dimensions. 35 items. A complete diagnostic of where your patient support program is strong — and where it's silently losing patients.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">📡</div>
+        <h4>1. Awareness & Discovery</h4>
+        <p>Do patients even know your support program exists? 59% report little or no knowledge.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⚡</div>
+        <h4>2. Enrollment & Onboarding</h4>
+        <p>How fast do patients go from aware to enrolled? Every day of delay increases abandonment.</p>
+      </div>
+      <div class="feature-card" style="border-color: var(--teal); background: var(--teal-light);">
+        <div class="feature-icon" style="background: var(--teal);">💚</div>
+        <h4>3. Emotional Readiness</h4>
+        <p>The "missing middle" — do you address the fear and doubt that cause patients to stall after enrollment?</p>
+      </div>
+      <div class="feature-card" style="border-color: var(--teal); background: var(--teal-light);">
+        <div class="feature-icon" style="background: var(--teal);">🤝</div>
+        <h4>4. Peer Connection & Mentorship</h4>
+        <p>Can patients talk to someone who has been through what they're about to go through?</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📊</div>
+        <h4>5. Adherence & Persistence</h4>
+        <p>Do you know what happens after the first fill? Chronic therapy adherence averages just 50%.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📈</div>
+        <h4>6. Data, Analytics & ROI</h4>
+        <p>Can you prove your program works with numbers that matter to leadership?</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔒</div>
+        <h4>7. Compliance & Scalability</h4>
+        <p>Can you scale your program across brands and indications without scaling risk?</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🎯</div>
+        <h4>Score Interpretation Guide</h4>
+        <p>4-tier rating system with specific next steps. Plus a business case framework to present to leadership.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM SECTION -->
+<section class="problem">
+  <div class="container">
+    <div class="problem-inner">
+      <h2>The Gap That Costs You <span>the Most Patients</span></h2>
+      <p>Most pharma patient support programs handle logistics well — prior auth, copay, enrollment, specialty pharmacy. Hubs have invested in these pillars for years.</p>
+      <p>But patients who have all the logistics handled still don't start therapy. The reason isn't access. It's fear, uncertainty, and the absence of someone who understands what they're going through.</p>
+      <div class="problem-highlight">
+        This is the <strong>"missing middle"</strong> — and it's where Sections 3 and 4 of the scorecard will reveal your biggest opportunity.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUOTE -->
+<section class="quote-section">
+  <div class="container">
+    <div class="quote-inner">
+      <div class="quote-mark">"</div>
+      <p class="quote-text">71% of patients reported their mentorship experience as critical in their decision to initiate or continue treatment.</p>
+      <p class="quote-attr">— PatientPartner 12-Month Impact Study (263 patients, 48 mentors)</p>
+    </div>
+  </div>
+</section>
+
+<!-- BOTTOM CTA -->
+<section class="bottom-cta">
+  <div class="container">
+    <h2>Score Your Program. Find Your Gaps. Fix What Matters.</h2>
+    <p>5 minutes to complete. Designed for pharma and med-tech patient services leaders. Take the results to your next leadership meeting.</p>
+    <a href="#download" class="bottom-cta-btn">Download the Free Scorecard →</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="lp-footer">
+  <div class="container">
+    <div class="lp-footer-logo">Patient<span>Partner</span></div>
+    <p>Patient Engagement Software That Delivers Measurable ROI</p>
+    <p style="margin-top:12px;"><a href="https://www.patientpartner.com">patientpartner.com</a> &nbsp;|&nbsp; <a href="mailto:george@patientpartner.com">george@patientpartner.com</a></p>
+    <p style="margin-top:12px;">&copy; 2026 PatientPartner. All rights reserved. &nbsp;|&nbsp; HIPAA &bull; SOC 2 &bull; ISO 27001</p>
+  </div>
+</footer>
+
+</body>
+</html>
